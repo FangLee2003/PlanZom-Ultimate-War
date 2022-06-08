@@ -2,7 +2,6 @@ package view;
 
 import controller.ZombieGamePanel;
 import model.*;
-import model.Zombie.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -37,21 +36,21 @@ public class ZombieWindow extends JFrame {
         Card graveyardZombie = new Card(new ImageIcon(this.getClass().getResource("images/cards/card_graveyard.png")).getImage());
         graveyardZombie.setLocation(110, 8);
         graveyardZombie.setAction((ActionEvent e) -> {
-            gp.activePlantingBrush = ZombieType.Graveyard;
+            gp.activeZombieBrush = ZombieType.Graveyard;
         });
         getLayeredPane().add(graveyardZombie, new Integer(3));
 
         Card normalZombie = new Card(new ImageIcon(this.getClass().getResource("images/cards/card_NormalZombie.png")).getImage());
         normalZombie.setLocation(110, 8);
         normalZombie.setAction((ActionEvent e) -> {
-            gp.activePlantingBrush = ZombieType.NormalZombie;
+            gp.activeZombieBrush = ZombieType.NormalZombie;
         });
         getLayeredPane().add(normalZombie, new Integer(3));
 
         Card coneHeadZombie = new Card(new ImageIcon(this.getClass().getResource("images/cards/card_ConeHeadZombie.png")).getImage());
         coneHeadZombie.setLocation(175, 8);
         coneHeadZombie.setAction((ActionEvent e) -> {
-            gp.activePlantingBrush = ZombieType.ConeHeadZombie;
+            gp.activeZombieBrush = ZombieType.ConeHeadZombie;
         });
         getLayeredPane().add(coneHeadZombie, new Integer(3));
 

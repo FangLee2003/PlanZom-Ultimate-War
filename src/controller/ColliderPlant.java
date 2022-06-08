@@ -3,8 +3,6 @@ package controller;
 import model.Plant.*;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -13,11 +11,11 @@ import java.awt.event.MouseListener;
 /**
  * Created by Armin on 6/25/2016.
  */
-public class Collider extends JPanel implements MouseListener {
+public class ColliderPlant extends JPanel implements MouseListener {
 
     ActionListener al;
 
-    public Collider(){
+    public ColliderPlant(){
         //setBorder(new LineBorder(Color.RED));
         setOpaque(false);
         addMouseListener(this);

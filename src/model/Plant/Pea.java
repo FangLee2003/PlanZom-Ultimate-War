@@ -1,5 +1,8 @@
 package model.Plant;
 
+import controller.PlantGamePanel;
+import model.Zombie.Zombie;
+
 import java.awt.*;
 
 /**
@@ -29,7 +32,7 @@ public class Pea {
                     System.out.println("ZOMBIE DIE");
                     
                     gp.laneZombies.get(myLane).remove(i);
-                    PlantGamePanel.setProgress(10);
+                    //PlantGamePanel.setProgress(10);
                     exit = true;
                 }
                 gp.lanePeas.get(myLane).remove(this);

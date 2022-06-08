@@ -15,12 +15,13 @@ public abstract class Plant {
     public PlantGamePanel gp;
 
 
-    public Plant(PlantGamePanel parent, int x, int y){
+    public Plant(PlantGamePanel parent, int x, int y) {
+        gp = parent;
         this.x = x;
         this.y = y;
-        gp = parent;
     }
 
-    public void stop(){}
+    public void stop() {
+    }
 
 }

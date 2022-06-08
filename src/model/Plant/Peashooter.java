@@ -1,5 +1,7 @@
 package model.Plant;
 
+import controller.PlantGamePanel;
+
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 

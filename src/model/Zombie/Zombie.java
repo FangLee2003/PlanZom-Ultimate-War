@@ -30,11 +30,11 @@ public class Zombie {
     public void advance() {
         if (isMoving) {
             boolean isCollides = false;
-            Collider collided = null;
+            ColliderZombie collided = null;
             for (int i = myLane * 9; i < (myLane + 1) * 9; i++) {
-                if (gp.colliders[i].assignedPlant != null && gp.colliders[i].isInsideCollider(posX)) {
+                if (gp.collidersZombie[i].assignedZombie != null && gp.collidersZombie[i].isInsideCollider(posX)) {
                     isCollides = true;
-                    collided = gp.colliders[i];
+                    collided = gp.collidersZombie[i];
                 }
             }
             if (!isCollides) {
@@ -47,9 +47,9 @@ public class Zombie {
                     posX -= 1;
                 }
             } else {
-                collided.assignedPlant.health -= 10;
-                if (collided.assignedPlant.health < 0) {
-                    collided.removePlant();
+                collided.assignedZombie.health -= 10;
+                if (collided.assignedZombie.health < 0) {
+                    collided.removeZombie();
                 }
             }
             if (posX < 0) {
@@ -67,17 +67,17 @@ public class Zombie {
         slowInt = 1000;
     }
 
-    public static Zombie getZombie(String type, ZombieGamePanel parent, int lane) {
-        Zombie z = new Zombie(parent, lane);
+    public static Zombie getZombie(ZombieGamePanel parent, int x, int y, String type) {
+        Zombie z = new Zombie(parent, x, y);
         switch (type) {
             case "Graveyard":
-                z = new Graveyard(parent, lane);
+                z = new Graveyard(parent, x, y);
                 break;
             case "NormalZombie":
-                z = new NormalZombie(parent, lane);
+                z = new NormalZombie(parent, x, y);
                 break;
             case "ConeHeadZombie":
-                z = new ConeHeadZombie(parent, lane);
+                z = new ConeHeadZombie(parent, x, y);
                 break;
         }
         return z;

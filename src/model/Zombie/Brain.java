@@ -21,7 +21,7 @@ public class Brain extends JPanel implements MouseListener {
 
     int destruct = 200;
 
-    public Brain(ZombieGamePanel parent, int startX, int startY, int endY, String type){
+    public Brain(ZombieGamePanel parent, int startX, int startY, int endY){
         this.gp = parent;
         this.endY = endY;
         setSize(80,80);
@@ -29,7 +29,7 @@ public class Brain extends JPanel implements MouseListener {
         myX = startX;
         myY = startY;
         setLocation(myX,myY);
-        manaImage = new ImageIcon(this.getClass().getResource("images/" +type+".png")).getImage();
+        manaImage = new ImageIcon(this.getClass().getResource("../../../resource/images/brain.png")).getImage();
         addMouseListener(this);
     }
 
