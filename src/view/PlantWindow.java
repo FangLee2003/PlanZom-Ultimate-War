@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
  */
 public class PlantWindow extends JFrame {
 
-    public enum PlantType{
+    public enum PlantType {
         None,
         Sunflower,
         Peashooter,
@@ -19,64 +19,67 @@ public class PlantWindow extends JFrame {
     }
 
     //PlantType activePlantingBrush = PlantType.None;
-    
-    public PlantWindow(){
-        setSize(1012,785);
+
+    public PlantWindow() {
+        setSize(1012, 785);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(null);
 
         JLabel sun = new JLabel("SUN");
-        sun.setLocation(37,80);
-        sun.setSize(60,20);
+        sun.setLocation(37, 80);
+        sun.setSize(60, 20);
 
         PlantGamePanel gp = new PlantGamePanel(sun);
-        gp.setLocation(0,0);
-        getLayeredPane().add(gp,new Integer(0));
-        
+        gp.setLocation(0, 0);
+        getLayeredPane().add(gp, new Integer(0));
+
         Card sunflower = new Card(new ImageIcon(this.getClass().getResource("images/cards/card_sunflower.png")).getImage());
-        sunflower.setLocation(110,8);
+        sunflower.setLocation(110, 8);
         sunflower.setAction((ActionEvent e) -> {
             gp.activePlantingBrush = PlantType.Sunflower;
         });
-        getLayeredPane().add(sunflower,new Integer(3));
+        getLayeredPane().add(sunflower, new Integer(3));
 
         Card peashooter = new Card(new ImageIcon(this.getClass().getResource("images/cards/card_peashooter.png")).getImage());
-        peashooter.setLocation(175,8);
+        peashooter.setLocation(175, 8);
         peashooter.setAction((ActionEvent e) -> {
             gp.activePlantingBrush = PlantType.Peashooter;
         });
-        getLayeredPane().add(peashooter,new Integer(3));
+        getLayeredPane().add(peashooter, new Integer(3));
 
         Card freezepeashooter = new Card(new ImageIcon(this.getClass().getResource("images/cards/card_freezepeashooter.png")).getImage());
-        freezepeashooter.setLocation(240,8);
+        freezepeashooter.setLocation(240, 8);
         freezepeashooter.setAction((ActionEvent e) -> {
             gp.activePlantingBrush = PlantType.FreezePeashooter;
         });
-        getLayeredPane().add(freezepeashooter,new Integer(3));
+        getLayeredPane().add(freezepeashooter, new Integer(3));
 
 
-
-        getLayeredPane().add(sun,new Integer(2));
+        getLayeredPane().add(sun, new Integer(2));
         setResizable(false);
         setVisible(true);
     }
+
     public PlantWindow(boolean b) {
-        Menu menu = new Menu();
-        menu.setLocation(0,0);
-        setSize(1012,785);
+        Menu menu = new Menu("Plant");
+        menu.setLocation(0, 0);
+        setSize(1012, 785);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        getLayeredPane().add(menu,new Integer(0));
+        getLayeredPane().add(menu, new Integer(0));
         menu.repaint();
         setResizable(false);
         setVisible(true);
     }
+
     public static PlantWindow gw;
+
     public static void begin() {
         gw.dispose();
-       gw = new PlantWindow();
+        gw = new PlantWindow();
     }
+
     public static void main(String[] args) {
-          gw = new PlantWindow(true);
+        gw = new PlantWindow(true);
     }
 
 }

@@ -29,7 +29,7 @@ public class Brain extends JPanel implements MouseListener {
         myX = startX;
         myY = startY;
         setLocation(myX,myY);
-        manaImage = new ImageIcon(this.getClass().getResource("../../../resource/images/brain.png")).getImage();
+        manaImage = new ImageIcon(this.getClass().getResource("images/zombies/brain.png")).getImage();
         addMouseListener(this);
     }
 

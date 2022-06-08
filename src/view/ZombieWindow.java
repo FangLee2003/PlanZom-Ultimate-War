@@ -25,7 +25,7 @@ public class ZombieWindow extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(null);
 
-        JLabel brain = new JLabel("brain");
+        JLabel brain = new JLabel("BRAIN");
         brain.setLocation(37, 80);
         brain.setSize(60, 20);
 
@@ -33,7 +33,7 @@ public class ZombieWindow extends JFrame {
         gp.setLocation(0, 0);
         getLayeredPane().add(gp, new Integer(0));
 
-        Card graveyardZombie = new Card(new ImageIcon(this.getClass().getResource("images/cards/card_graveyard.png")).getImage());
+        Card graveyardZombie = new Card(new ImageIcon(this.getClass().getResource("images/cards/card_Graveyard.png")).getImage());
         graveyardZombie.setLocation(110, 8);
         graveyardZombie.setAction((ActionEvent e) -> {
             gp.activeZombieBrush = ZombieType.Graveyard;
@@ -60,7 +60,7 @@ public class ZombieWindow extends JFrame {
     }
 
     public ZombieWindow(boolean b) {
-        Menu menu = new Menu();
+        Menu menu = new Menu("Zombie");
         menu.setLocation(0, 0);
         setSize(1012, 785);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -70,7 +70,7 @@ public class ZombieWindow extends JFrame {
         setVisible(true);
     }
 
-    static ZombieWindow gw;
+    public static ZombieWindow gw;
 
     public static void begin() {
         gw.dispose();
