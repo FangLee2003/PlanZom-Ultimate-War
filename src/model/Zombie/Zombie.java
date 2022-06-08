@@ -13,7 +13,7 @@ public class Zombie {
     public int health = 1000;
     public int speed = 1;
 
-    private ZombieGamePanel gp;
+    public ZombieGamePanel gp;
 
     public int posX = 1000;
     public int x;
@@ -21,9 +21,8 @@ public class Zombie {
     public int myLane;
     public boolean isMoving = true;
 
-    public Zombie(ZombieGamePanel parent, int lane, int x, int y) {
+    public Zombie(ZombieGamePanel parent, int x, int y) {
         this.gp = parent;
-        myLane = lane;
         this.x = x;
         this.y = y;
     }
@@ -71,13 +70,13 @@ public class Zombie {
     public static Zombie getZombie(String type, ZombieGamePanel parent, int lane) {
         Zombie z = new Zombie(parent, lane);
         switch (type) {
-            case "model.Zombie.Graveyard":
+            case "Graveyard":
                 z = new Graveyard(parent, lane);
                 break;
-            case "model.Zombie.NormalZombie":
+            case "NormalZombie":
                 z = new NormalZombie(parent, lane);
                 break;
-            case "model.Zombie.ConeHeadZombie":
+            case "ConeHeadZombie":
                 z = new ConeHeadZombie(parent, lane);
                 break;
         }

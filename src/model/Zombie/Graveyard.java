@@ -1,8 +1,8 @@
 package model.Zombie;
 
 import controller.*;
-import model.*;
 import model.Plant.Plant;
+import model.Plant.Sun;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,16 +12,16 @@ import java.awt.event.ActionEvent;
  */
 public class Graveyard extends Plant {
 
-    Timer sunProduceTimer;
+    Timer brainProduceTimer;
 
     public Graveyard(PlantGamePanel parent, int x, int y) {
         super(parent, x, y);
-        sunProduceTimer = new Timer(15000,(ActionEvent e) -> {
-            Mana sta = new Mana(gp,60 + x*100,110 + y*120,130 + y*120, "brain");
+        brainProduceTimer = new Timer(15000,(ActionEvent e) -> {
+            Sun sta = new Sun(gp,60 + x*100,110 + y*120,130 + y*120, "brain");
             gp.activeManas.add(sta);
             gp.add(sta,new Integer(1));
         });
-        sunProduceTimer.start();
+        brainProduceTimer.start();
     }
 
 }

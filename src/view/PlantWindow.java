@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 public class PlantWindow extends JFrame {
 
     public enum PlantType{
+        None,
         Sunflower,
         Peashooter,
         FreezePeashooter

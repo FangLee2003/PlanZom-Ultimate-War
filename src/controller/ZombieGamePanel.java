@@ -1,9 +1,8 @@
 package controller;
 
-import model.*;
 import model.Plant.*;
 import model.Zombie.*;
-import view.ZombieWindow;
+import view.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,7 +34,7 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
 
     ArrayList<ArrayList<Zombie>> laneZombies;
     ArrayList<ArrayList<Pea>> lanePeas;
-    ArrayList<Mana> activeBrains;
+    public ArrayList<Sun> activeBrains;
 
     Timer redrawTimer;
     Timer advancerTimer;
@@ -64,16 +63,17 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
         this.brainScoreboard = brainScoreboard;
         setBrainScore(150);  //pool avalie
 
-        bgImage = new ImageIcon(this.getClass().getResource("images/mainBG.png")).getImage();
+        bgImage = new ImageIcon(this.getClass().getResource("../../../resource/images/background2.png")).getImage();
 
-        peashooterImage = new ImageIcon(this.getClass().getResource("images/plants/peashooter.gif")).getImage();
-        freezePeashooterImage = new ImageIcon(this.getClass().getResource("images/plants/freezepeashooter.gif")).getImage();
-        sunflowerImage = new ImageIcon(this.getClass().getResource("images/plants/brainflower.gif")).getImage();
-        peaImage = new ImageIcon(this.getClass().getResource("images/pea.png")).getImage();
-        freezePeaImage = new ImageIcon(this.getClass().getResource("images/freezepea.png")).getImage();
+        sunflowerImage = new ImageIcon(this.getClass().getResource("../../../resource/images/plants/brainflower.gif")).getImage();
+        peashooterImage = new ImageIcon(this.getClass().getResource("../../../resource/images/plants/peashooter.gif")).getImage();
+        freezePeashooterImage = new ImageIcon(this.getClass().getResource("../../../resource/images/plants/freezepeashooter.gif")).getImage();
+        peaImage = new ImageIcon(this.getClass().getResource("../../../resource/images/pea.png")).getImage();
+        freezePeaImage = new ImageIcon(this.getClass().getResource("../../../resource/images/freezepea.png")).getImage();
 
-        normalZombieImage = new ImageIcon(this.getClass().getResource("images/zombies/zombie1.png")).getImage();
-        coneHeadZombieImage = new ImageIcon(this.getClass().getResource("images/zombies/zombie2.png")).getImage();
+        graveyardImage = new ImageIcon(this.getClass().getResource("../../../resource/images/zombies/graveyard.png")).getImage();
+        normalZombieImage = new ImageIcon(this.getClass().getResource("../../../resource/images/zombies/zombie1.png")).getImage();
+        coneHeadZombieImage = new ImageIcon(this.getClass().getResource("../../../resource/images/zombies/zombie2.png")).getImage();
 
         laneZombies = new ArrayList<>();
         laneZombies.add(new ArrayList<>()); //line 1
@@ -89,13 +89,13 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
         lanePeas.add(new ArrayList<>()); //line 4
         lanePeas.add(new ArrayList<>()); //line 5
 
-        colliders = new Collider[45];
-        for (int i = 0; i < 45; i++) {
-            Collider a = new Collider();
-            a.setLocation(44 + (i % 9) * 100, 109 + (i / 9) * 120);
-            a.setAction(new PlantActionListener((i % 9), (i / 9)));
-            colliders[i] = a;
-            add(a, new Integer(0));
+        colliders = new Collider[20];
+        for (int i = 0; i < 20; i++) {
+            Collider colliderZombie = new Collider();
+            colliderZombie.setLocation(544 + (i % 4) * 100, 109 + (i / 4) * 120); // First cell (0, 0) in place (544, 109), second cell (0, 1) in place (644, 109),...
+            colliderZombie.setAction(new PlantActionListener((i % 4), (i / 4)));
+            colliders[i] = colliderZombie;
+            add(colliderZombie, new Integer(0));
         }
 
         //colliders[0].setPlant(new model.model.Plant.Plant.FreezePeashooter(this,0,0));
@@ -115,7 +115,7 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
 
         brainProducer = new Timer(5000, (ActionEvent e) -> {
             Random rnd = new Random();
-            Brain sta = new Brain(this, rnd.nextInt(800) + 100, 0, rnd.nextInt(300) + 200);
+            Sun sta = new Sun(this, rnd.nextInt(800) + 100, 0, rnd.nextInt(300) + 200, "brain");
             activeBrains.add(sta);
             add(sta, new Integer(1));
         });
@@ -169,27 +169,19 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
             Collider c = colliders[i];
             if (c.assignedPlant != null) {
                 Plant p = c.assignedPlant;
-                if (p instanceof Graveyard) {
-                    g.drawImage(graveyardImage, 60 + (i % 9) * 100, 129 + (i / 9) * 120, null);
+                if (p instanceof Peashooter) {
+                    g.drawImage(peashooterImage, 60 + (i % 9) * 100, 129 + (i / 9) * 120, null);
                 }
-                if (p instanceof NormalZombie) {
-                    g.drawImage(normalZombieImage, 60 + (i % 9) * 100, 129 + (i / 9) * 120, null);
+                if (p instanceof FreezePeashooter) {
+                    g.drawImage(freezePeashooterImage, 60 + (i % 9) * 100, 129 + (i / 9) * 120, null);
                 }
-                if (p instanceof ConeHeadZombie) {
-                    g.drawImage(coneHeadZombieImage, 60 + (i % 9) * 100, 129 + (i / 9) * 120, null);
+                if (p instanceof Sunflower) {
+                    g.drawImage(sunflowerImage, 60 + (i % 9) * 100, 129 + (i / 9) * 120, null);
                 }
             }
         }
 
         for (int i = 0; i < 5; i++) {
-            for (Zombie z : laneZombies.get(i)) {
-                if (z instanceof NormalZombie) {
-                    g.drawImage(normalZombieImage, z.posX, 109 + (i * 120), null);
-                } else if (z instanceof ConeHeadZombie) {
-                    g.drawImage(coneHeadZombieImage, z.posX, 109 + (i * 120), null);
-                }
-            }
-
             for (int j = 0; j < lanePeas.get(i).size(); j++) {
                 Pea p = lanePeas.get(i).get(j);
                 if (p instanceof FreezePea) {
@@ -199,6 +191,15 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
                 }
             }
 
+            for (Zombie z : laneZombies.get(i)) {
+                if (z instanceof NormalZombie) {
+                    g.drawImage(normalZombieImage, z.posX, 109 + (i * 120), null);
+                } else if (z instanceof ConeHeadZombie) {
+                    g.drawImage(coneHeadZombieImage, z.posX, 109 + (i * 120), null);
+                } else {
+                    g.drawImage(graveyardImage, z.posX, 109 + (i * 120), null);
+                }
+            }
         }
 
         //if(!"".equals(activePlantingBrush)){
@@ -223,23 +224,23 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (activePlantingBrush == ZombieWindow.ZombieType.Grave) {
+            if (activePlantingBrush == ZombieWindow.ZombieType.Graveyard) {
                 if (getBrainScore() >= 50) {
-                    colliders[x + y * 9].setPlant(new Grave(ZombieGamePanel.this, x, y));
+                    colliders[x + y * 9].setPlant(new Graveyard(PlantGamePanel.this, x, y));
                     setBrainScore(getBrainScore() - 50);
                 }
             }
             if (activePlantingBrush == ZombieWindow.ZombieType.NormalZombie) {
                 if (getBrainScore() >= 75) {
                     colliders[x + y * 9].setPlant(new NormalZombie(ZombieGamePanel.this, x, y));
-                    setBrainScore(getBrainScore() - 100);
+                    setBrainScore(getBrainScore() - 75);
                 }
             }
 
             if (activePlantingBrush == ZombieWindow.ZombieType.ConeHeadZombie) {
                 if (getBrainScore() >= 100) {
                     colliders[x + y * 9].setPlant(new ConeHeadZombie(ZombieGamePanel.this, x, y));
-                    setBrainScore(getBrainScore() - 175);
+                    setBrainScore(getBrainScore() - 100);
                 }
             }
 

@@ -7,8 +7,8 @@ import controller.ZombieGamePanel;
  */
 public class NormalZombie extends Zombie {
 
-    public NormalZombie(ZombieGamePanel parent, int lane, int x, int y){
-        super(parent,lane, x, y);
+    public NormalZombie(ZombieGamePanel parent, int x, int y) {
+        super(parent, x, y);
     }
 
 }

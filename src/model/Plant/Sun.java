@@ -1,4 +1,4 @@
-package model;
+package model.Plant;
 
 import controller.PlantGamePanel;
 
@@ -10,7 +10,7 @@ import java.awt.event.MouseListener;
 /**
  * Created by Armin on 6/27/2016.
  */
-public class Mana extends JPanel implements MouseListener {
+public class Sun extends JPanel implements MouseListener {
 
     PlantGamePanel gp;
     Image manaImage;
@@ -21,7 +21,7 @@ public class Mana extends JPanel implements MouseListener {
 
     int destruct = 200;
 
-    public Mana(PlantGamePanel parent, int startX, int startY, int endY, String type){
+    public Sun(PlantGamePanel parent, int startX, int startY, int endY, String type){
         this.gp = parent;
         this.endY = endY;
         setSize(80,80);
@@ -46,7 +46,7 @@ public class Mana extends JPanel implements MouseListener {
             destruct--;
             if(destruct<0){
                 gp.remove(this);
-                gp.activeManas.remove(this);
+                gp.activeSuns.remove(this);
             }
         }
         setLocation(myX,myY);
@@ -64,9 +64,9 @@ public class Mana extends JPanel implements MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        gp.setManaScore(gp.getManaScore()+25);
+        gp.setSunScore(gp.getSunScore()+25);
         gp.remove(this);
-        gp.activeManas.remove(this);
+        gp.activeSuns.remove(this);
     }
 
     @Override

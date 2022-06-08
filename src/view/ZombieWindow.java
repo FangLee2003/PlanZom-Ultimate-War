@@ -12,7 +12,8 @@ import java.awt.event.ActionEvent;
  */
 public class ZombieWindow extends JFrame {
 
-    enum ZombieType {
+    public enum ZombieType {
+        None,
         Graveyard,
         NormalZombie,
         ConeHeadZombie
