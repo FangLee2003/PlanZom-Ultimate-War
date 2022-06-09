@@ -26,28 +26,28 @@ public class ZombieWindow extends JFrame {
         setLayout(null);
 
         JLabel brain = new JLabel("BRAIN");
-        brain.setLocation(915, 115);
+        brain.setLocation(925, 80);
         brain.setSize(60, 20);
 
         ZombieGamePanel gp = new ZombieGamePanel(brain);
         gp.setLocation(0, 0);
         getLayeredPane().add(gp, new Integer(0));
         Card coneHeadZombie = new Card(new ImageIcon(this.getClass().getClassLoader().getResource("images/cards/card_ConeHeadZombie.png")).getImage());
-        coneHeadZombie.setLocation(660, 40);
+        coneHeadZombie.setLocation(685, 8);
         coneHeadZombie.setAction((ActionEvent e) -> {
             gp.activeZombieBrush = ZombieType.ConeHeadZombie;
         });
         getLayeredPane().add(coneHeadZombie, new Integer(3));
 
         Card normalZombie = new Card(new ImageIcon(this.getClass().getClassLoader().getResource("images/cards/card_NormalZombie.png")).getImage());
-        normalZombie.setLocation(730, 40);
+        normalZombie.setLocation(755, 8);
         normalZombie.setAction((ActionEvent e) -> {
             gp.activeZombieBrush = ZombieType.NormalZombie;
         });
         getLayeredPane().add(normalZombie, new Integer(3));
 
         Card graveyardZombie = new Card(new ImageIcon(this.getClass().getClassLoader().getResource("images/cards/card_Graveyard.png")).getImage());
-        graveyardZombie.setLocation(800, 40);
+        graveyardZombie.setLocation(825, 8);
         graveyardZombie.setAction((ActionEvent e) -> {
             gp.activeZombieBrush = ZombieType.Graveyard;
         });

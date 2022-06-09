@@ -166,10 +166,10 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
                     g.drawImage(peashooterImage, 60 + (i % 5) * 100, 129 + (i / 5) * 120, null);
                 }
                 if (p instanceof FreezePeashooter) {
-                    g.drawImage(freezePeashooterImage, 60 + (i % 5) * 100, 129 + (i / 9) * 120, null);
+                    g.drawImage(freezePeashooterImage, 60 + (i % 5) * 100, 129 + (i / 5) * 120, null);
                 }
                 if (p instanceof Sunflower) {
-                    g.drawImage(sunflowerImage, 60 + (i % 5) * 100, 129 + (i / 9) * 120, null);
+                    g.drawImage(sunflowerImage, 60 + (i % 5) * 100, 129 + (i / 5) * 120, null);
                 }
             }
         }

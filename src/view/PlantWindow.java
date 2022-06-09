@@ -54,7 +54,6 @@ public class PlantWindow extends JFrame {
         });
         getLayeredPane().add(freezepeashooter, new Integer(3));
 
-
         getLayeredPane().add(sun, new Integer(2));
         setResizable(false);
         setVisible(true);
