@@ -56,17 +56,17 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
         this.manaScoreboard = manaScoreboard;
         setSunScore(150);  //pool avalie
 
-        bgImage = new ImageIcon(this.getClass().getResource("images/background1.png")).getImage();
+        bgImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/background1.png")).getImage();
 
-        sunflowerImage = new ImageIcon(this.getClass().getResource("images/plants/brainflower.gif")).getImage();
-        peashooterImage = new ImageIcon(this.getClass().getResource("images/plants/peashooter.gif")).getImage();
-        freezePeashooterImage = new ImageIcon(this.getClass().getResource("images/plants/freezepeashooter.gif")).getImage();
-        peaImage = new ImageIcon(this.getClass().getResource("images/pea.png")).getImage();
-        freezePeaImage = new ImageIcon(this.getClass().getResource("images/freezepea.png")).getImage();
+        sunflowerImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/plants/sunflower.gif")).getImage();
+        peashooterImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/plants/peashooter.gif")).getImage();
+        freezePeashooterImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/plants/freezepeashooter.gif")).getImage();
+        peaImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/plants/pea.png")).getImage();
+        freezePeaImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/plants/freezepea.png")).getImage();
 
-        graveyardImage = new ImageIcon(this.getClass().getResource("images/zombies/graveyard.png")).getImage();
-        normalZombieImage = new ImageIcon(this.getClass().getResource("images/zombies/zombie1.png")).getImage();
-        coneHeadZombieImage = new ImageIcon(this.getClass().getResource("images/zombies/zombie2.png")).getImage();
+        graveyardImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/zombies/graveyard.png")).getImage();
+        normalZombieImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/zombies/zombie1.png")).getImage();
+        coneHeadZombieImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/zombies/zombie2.png")).getImage();
 
         laneZombies = new ArrayList<>();
         laneZombies.add(new ArrayList<>()); //line 1

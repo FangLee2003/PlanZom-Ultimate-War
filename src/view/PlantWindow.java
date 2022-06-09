@@ -33,21 +33,21 @@ public class PlantWindow extends JFrame {
         gp.setLocation(0, 0);
         getLayeredPane().add(gp, new Integer(0));
 
-        Card sunflower = new Card(new ImageIcon(this.getClass().getResource("images/cards/card_sunflower.png")).getImage());
+        Card sunflower = new Card(new ImageIcon(this.getClass().getClassLoader().getResource("images/cards/card_sunflower.png")).getImage());
         sunflower.setLocation(110, 8);
         sunflower.setAction((ActionEvent e) -> {
             gp.activePlantingBrush = PlantType.Sunflower;
         });
         getLayeredPane().add(sunflower, new Integer(3));
 
-        Card peashooter = new Card(new ImageIcon(this.getClass().getResource("images/cards/card_peashooter.png")).getImage());
+        Card peashooter = new Card(new ImageIcon(this.getClass().getClassLoader().getResource("images/cards/card_peashooter.png")).getImage());
         peashooter.setLocation(175, 8);
         peashooter.setAction((ActionEvent e) -> {
             gp.activePlantingBrush = PlantType.Peashooter;
         });
         getLayeredPane().add(peashooter, new Integer(3));
 
-        Card freezepeashooter = new Card(new ImageIcon(this.getClass().getResource("images/cards/card_freezepeashooter.png")).getImage());
+        Card freezepeashooter = new Card(new ImageIcon(this.getClass().getClassLoader().getResource("images/cards/card_freezepeashooter.png")).getImage());
         freezepeashooter.setLocation(240, 8);
         freezepeashooter.setAction((ActionEvent e) -> {
             gp.activePlantingBrush = PlantType.FreezePeashooter;
