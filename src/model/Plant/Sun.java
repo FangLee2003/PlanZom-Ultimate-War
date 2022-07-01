@@ -13,35 +13,36 @@ import java.awt.event.MouseListener;
 public class Sun extends JPanel implements MouseListener {
 
     PlantGamePanel gp;
-    Image manaImage;
+    Image sunImage;
 
-    int myX;
-    int myY;
+    int X;
+    int Y;
     int endY;
 
     int destruct = 200;
 
     public Sun(PlantGamePanel parent, int startX, int startY, int endY){
         this.gp = parent;
+        X = startX;
+        Y = startY;
         this.endY = endY;
+
         setSize(80,80);
         setOpaque(false);
-        myX = startX;
-        myY = startY;
-        setLocation(myX,myY);
-        manaImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/plants/sun.png")).getImage();
+        setLocation(X, Y);
+        sunImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/plants/sun.png")).getImage();
         addMouseListener(this);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(manaImage,0,0,null);
+        g.drawImage(sunImage,0,0,null);
     }
 
     public void advance(){
-        if(myY < endY) {
-            myY+= 4;
+        if(Y < endY) {
+            Y += 4;
         }else{
             destruct--;
             if(destruct<0){
@@ -49,7 +50,7 @@ public class Sun extends JPanel implements MouseListener {
                 gp.activeSuns.remove(this);
             }
         }
-        setLocation(myX,myY);
+        setLocation(X, Y);
     }
 
     @Override

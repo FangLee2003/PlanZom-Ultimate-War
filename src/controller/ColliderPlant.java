@@ -1,6 +1,6 @@
 package controller;
 
-import model.Plant.*;
+import model.Plant.Plant;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -25,11 +25,11 @@ public class ColliderPlant extends JPanel implements MouseListener {
 
     public Plant assignedPlant;
 
-    public void setPlant(Plant p){
+    public void setCharacter(Plant p){
         assignedPlant = p;
     }
 
-    public void removePlant(){
+    public void removeCharacter(){
         assignedPlant.stop();
         assignedPlant = null;
     }

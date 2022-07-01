@@ -1,5 +1,6 @@
 package controller;
 
+import model.Lane;
 import model.Plant.*;
 import model.Zombie.*;
 import view.*;
@@ -10,35 +11,43 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
-/**
- * Created by Armin on 6/25/2016.
- */
 public class PlantGamePanel extends JLayeredPane implements MouseMotionListener {
 
     Image bgImage;
-    Image sunflowerImage;
-    Image peashooterImage;
-    Image peaImage;
-    Image freezePeashooterImage;
-    Image freezePeaImage;
-    Image graveyardImage;
-    Image normalZombieImage;
-    Image coneHeadZombieImage;
-    public ColliderPlant[] collidersPlant;
 
-    public ArrayList<ArrayList<Zombie>> laneZombies;
-    public ArrayList<ArrayList<Pea>> lanePeas;
-    public ArrayList<Sun> activeSuns;
+    Image sun_plant_img = new ImageIcon(this.getClass().getClassLoader().getResource("images/plants/sunflower.gif")).getImage();
+    Image pea_plant_img = new ImageIcon(this.getClass().getClassLoader().getResource("images/plants/peashooter.gif")).getImage();
+    Image ice_plant_img = new ImageIcon(this.getClass().getClassLoader().getResource("images/plants/freezepeashooter.gif")).getImage();
+
+    Image pea_img = new ImageIcon(this.getClass().getClassLoader().getResource("images/plants/pea.png")).getImage();
+    Image ice_img = new ImageIcon(this.getClass().getClassLoader().getResource("images/plants/freezepea.png")).getImage();
+
+    Image zom_grave_img = new ImageIcon(this.getClass().getClassLoader().getResource("images/zombies/normalzombiegraveyard.png")).getImage();
+    Image coneheadzom_grave_img = new ImageIcon(this.getClass().getClassLoader().getResource("images/zombies/coneheadzombiegraveyard.png")).getImage();
+    Image brain_grave_img = new ImageIcon(this.getClass().getClassLoader().getResource("images/zombies/braingraveyard.png")).getImage();
+
+    public Image zom_img = new ImageIcon(this.getClass().getClassLoader().getResource("images/zombies/normalzombie.png")).getImage();
+    public Image coneheadzom_img = new ImageIcon(this.getClass().getClassLoader().getResource("images/zombies/coneheadzombie.png")).getImage();
+
+    public int planHealth = 10000;
+    public int zomHealth = 10000;
+
+    public ColliderPlant[] collidersPlant;
+    public ColliderZombie[] collidersZombie;
+
+    public Lane lane;
     Timer redrawTimer;
+
     Timer advancerTimer;
+
+    public ArrayList<Sun> activeSuns;
     Timer sunProducer;
-    JLabel manaScoreboard;
+    private int sunScore;
+    JLabel sunScoreBoard;
 
     public PlantWindow.PlantType activePlantingBrush = PlantWindow.PlantType.None;
 
     int mouseX, mouseY;
-
-    private int sunScore;
 
     public int getSunScore() {
         return sunScore;
@@ -46,43 +55,21 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
 
     public void setSunScore(int sunScore) {
         this.sunScore = sunScore;
-        manaScoreboard.setText(String.valueOf(sunScore));
+        sunScoreBoard.setText(String.valueOf(sunScore));
     }
 
-    public PlantGamePanel(JLabel manaScoreboard) {
+    public PlantGamePanel(JLabel sunScoreBoard) {
         setSize(1000, 752);
         setLayout(null);
         addMouseMotionListener(this);
-        this.manaScoreboard = manaScoreboard;
+        this.sunScoreBoard = sunScoreBoard;
         setSunScore(150);  //pool avalie
 
         bgImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/background1.png")).getImage();
 
-        sunflowerImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/plants/sunflower.gif")).getImage();
-        peashooterImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/plants/peashooter.gif")).getImage();
-        freezePeashooterImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/plants/freezepeashooter.gif")).getImage();
-        peaImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/plants/pea.png")).getImage();
-        freezePeaImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/plants/freezepea.png")).getImage();
-
-        graveyardImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/zombies/graveyard.png")).getImage();
-        normalZombieImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/zombies/zombie1.png")).getImage();
-        coneHeadZombieImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/zombies/zombie2.png")).getImage();
-
-        laneZombies = new ArrayList<>();
-        laneZombies.add(new ArrayList<>()); //line 1
-        laneZombies.add(new ArrayList<>()); //line 2
-        laneZombies.add(new ArrayList<>()); //line 3
-        laneZombies.add(new ArrayList<>()); //line 4
-        laneZombies.add(new ArrayList<>()); //line 5
-
-        lanePeas = new ArrayList<>();
-        lanePeas.add(new ArrayList<>()); //line 1
-        lanePeas.add(new ArrayList<>()); //line 2
-        lanePeas.add(new ArrayList<>()); //line 3
-        lanePeas.add(new ArrayList<>()); //line 4
-        lanePeas.add(new ArrayList<>()); //line 5
-
         collidersPlant = new ColliderPlant[25];
+        lane = new Lane();
+
         for (int i = 0; i < 25; i++) {
             ColliderPlant cP = new ColliderPlant();
             cP.setLocation(44 + (i % 5) * 100, 109 + (i / 5) * 120); // First cell (0, 0) in place (44, 109), second cell (0, 1) in place (144, 109),...
@@ -90,11 +77,18 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
             collidersPlant[i] = cP;
             add(cP, new Integer(0));
         }
+//        for (int i = 0; i < 20; i++) {
+//            ColliderZombie cZ = new ColliderZombie();
+//            cZ.setLocation(544 + (i % 4) * 100, 109 + (i / 4) * 120); // First cell (0, 0) in place (544, 109), second cell (0, 1) in place (644, 109),...
+//            cZ.setAction(new ZombieActionListener((i % 4), (i / 4)));
+//            collidersZombie[i] = cZ;
+//            add(cZ, new Integer(0));
+//        }
 
         //colliders[0].setPlant(new model.model.Plant.Plant.FreezePeashooter(this,0,0));
 /*
         colliders[9].setPlant(new model.model.Plant.Plant.Peashooter(this,0,1));
-        laneZombies.get(1).add(new model.Zombie.NormalZombie(this,1));*/
+        laneZombies.get(1).add(new model.Grave.Zom(this,1));*/
 
         activeSuns = new ArrayList<>();
 
@@ -108,9 +102,9 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
 
         sunProducer = new Timer(5000, (ActionEvent e) -> {
             Random rnd = new Random();
-            Sun sta = new Sun(this, rnd.nextInt(800) + 100, 0, rnd.nextInt(300) + 200);
-            activeSuns.add(sta);
-            add(sta, new Integer(1));
+            Sun sun = new Sun(this, rnd.nextInt(800) + 100, 0, rnd.nextInt(300) + 200);
+            activeSuns.add(sun);
+            add(sun, new Integer(1));
         });
         sunProducer.start();
 
@@ -121,10 +115,10 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
 //            int[][] LevelValue = lvl.LevelValue[Integer.parseInt(lvl.Lvl) - 1];
 //            int l = rnd.nextInt(5);
 //            int t = rnd.nextInt(100);
-//            Zombie z = null;
+//            Grave z = null;
 //            for (int i = 0; i < LevelValue.length; i++) {
 //                if (t >= LevelValue[i][0] && t <= LevelValue[i][1]) {
-//                    z = Zombie.getZombie(Level[i], PlantGamePanel.this, l);
+//                    z = Grave.getZombie(Level[i], PlantGamePanel.this, l);
 //                }
 //            }
 //            laneZombies.get(l).add(z);
@@ -135,15 +129,22 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
 
     private void advance() {
         for (int i = 0; i < 5; i++) {
-            for (Zombie z : laneZombies.get(i)) {
-                z.advance();
-            }
-
-            for (int j = 0; j < lanePeas.get(i).size(); j++) {
-                Pea p = lanePeas.get(i).get(j);
+            for (int j = 0; j < lane.lanePeas.get(i).size(); j++) {
+                Pea p = lane.lanePeas.get(i).get(j);
                 p.advance();
+                if (zomHealth == 0) {
+                    System.out.println("PLANTS CLEARED ZOMBIES!");
+                    System.exit(0);
+                }
             }
-
+            for (int j = 0; j < lane.laneZoms.get(i).size(); j++) {
+                Zom z = lane.laneZoms.get(i).get(j);
+                z.advance();
+                if (planHealth == 0) {
+                    System.out.println("ZOMBIES ATE BRAIN!");
+                    System.exit(0);
+                }
+            }
         }
 
         for (int i = 0; i < activeSuns.size(); i++) {
@@ -161,38 +162,57 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
         for (int i = 0; i < 25; i++) {
             ColliderPlant cP = collidersPlant[i];
             if (cP.assignedPlant != null) {
-                Plant p = cP.assignedPlant;
-                if (p instanceof Peashooter) {
-                    g.drawImage(peashooterImage, 60 + (i % 5) * 100, 129 + (i / 5) * 120, null);
+                Image plant_img = null;
+                if (cP.assignedPlant instanceof PeaPlant) {
+                    plant_img = pea_plant_img;
+                } else if (cP.assignedPlant instanceof IcePlant) {
+                    plant_img = ice_plant_img;
+                } else {
+                    plant_img = sun_plant_img;
                 }
-                if (p instanceof FreezePeashooter) {
-                    g.drawImage(freezePeashooterImage, 60 + (i % 5) * 100, 129 + (i / 5) * 120, null);
-                }
-                if (p instanceof Sunflower) {
-                    g.drawImage(sunflowerImage, 60 + (i % 5) * 100, 129 + (i / 5) * 120, null);
-                }
+                g.drawImage(plant_img, 60 + (i % 5) * 100, 129 + (i / 5) * 120, null);
             }
         }
-
+//        for (int i = 0; i < 20; i++) {
+//            ColliderZombie cZ = collidersZombie[i];
+//            if (cZ.assignedGrave != null) {
+//                Image zombie_img = null;
+//                if (cZ.assignedGrave instanceof ZomGrave) {
+//                    zombie_img = zom_grave_img;
+//                } else if (cZ.assignedGrave instanceof ConeHeadZomGrave) {
+//                    zombie_img = coneheadzom_grave_img;
+//                } else {
+//                    zombie_img = brain_grave_img;
+//                }
+//                g.drawImage(zombie_img, 560 + (i % 4) * 100, 129 + (i / 4) * 120, null);
+//            }
+//        }
         for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < lanePeas.get(i).size(); j++) {
-                Pea p = lanePeas.get(i).get(j);
-                if (p instanceof FreezePea) {
-                    g.drawImage(freezePeaImage, p.posX, 130 + (i * 120), null);
+            for (int j = 0; j < lane.lanePeas.get(i).size(); j++) {
+                Pea p = lane.lanePeas.get(i).get(j);
+                if (p instanceof Ice) {
+                    g.drawImage(ice_img, p.posX, 130 + (i * 120), null);
                 } else {
-                    g.drawImage(peaImage, p.posX, 130 + (i * 120), null);
+                    g.drawImage(pea_img, p.posX, 130 + (i * 120), null);
                 }
             }
-
-            for (Zombie z : laneZombies.get(i)) {
-                if (z instanceof NormalZombie) {
-                    g.drawImage(normalZombieImage, z.posX, 109 + (i * 120), null);
-                } else if (z instanceof ConeHeadZombie) {
-                    g.drawImage(coneHeadZombieImage, z.posX, 109 + (i * 120), null);
+            for (int j = 0; j < lane.laneZoms.get(i).size(); j++) {
+                Zom z = lane.laneZoms.get(i).get(j);
+                if (z instanceof ConeHeadZom) {
+                    g.drawImage(coneheadzom_img, z.posX, 130 + (i * 120), null);
                 } else {
-                    g.drawImage(graveyardImage, z.posX, 109 + (i * 120), null);
+                    g.drawImage(zom_img, z.posX, 130 + (i * 120), null);
                 }
             }
+            //            for (Grave z : laneCharacters.get(i)) {
+//                if (z instanceof Zom) {
+//                    g.drawImage(normalZombieImage, z.posX, 109 + (i * 120), null);
+//                } else if (z instanceof ConeHeadZom) {
+//                    g.drawImage(coneHeadZombieImage, z.posX, 109 + (i * 120), null);
+//                } else {
+//                    g.drawImage(graveyardImage, z.posX, 109 + (i * 120), null);
+//                }
+//            }
         }
 
         //if(!"".equals(activePlantingBrush)){
@@ -202,7 +222,6 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
             }*/
 
         //}
-
 
     }
 
@@ -217,22 +236,22 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (activePlantingBrush == PlantWindow.PlantType.Sunflower) {
+            if (activePlantingBrush == PlantWindow.PlantType.SunPlant) {
                 if (getSunScore() >= 50) {
-                    collidersPlant[x + y * 5].setPlant(new Sunflower(PlantGamePanel.this, x, y));
+                    collidersPlant[x + y * 5].setCharacter(new SunPlant(PlantGamePanel.this, lane, x, y));
                     setSunScore(getSunScore() - 50);
                 }
             }
-            if (activePlantingBrush == PlantWindow.PlantType.Peashooter) {
+            if (activePlantingBrush == PlantWindow.PlantType.PeaPlant) {
                 if (getSunScore() >= 100) {
-                    collidersPlant[x + y * 5].setPlant(new Peashooter(PlantGamePanel.this, x, y));
+                    collidersPlant[x + y * 5].setCharacter(new PeaPlant(PlantGamePanel.this, lane, x, y));
                     setSunScore(getSunScore() - 100);
                 }
             }
 
-            if (activePlantingBrush == PlantWindow.PlantType.FreezePeashooter) {
+            if (activePlantingBrush == PlantWindow.PlantType.IcePlant) {
                 if (getSunScore() >= 175) {
-                    collidersPlant[x + y * 5].setPlant(new FreezePeashooter(PlantGamePanel.this, x, y));
+                    collidersPlant[x + y * 5].setCharacter(new IcePlant(PlantGamePanel.this, lane, x, y));
                     setSunScore(getSunScore() - 175);
                 }
             }
@@ -252,7 +271,7 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
         mouseY = e.getY();
     }
 
-    static int progress = 0;
+//    static int progress = 0;
 
 //    public static void setProgress(int num) {
 //        progress = progress + num;

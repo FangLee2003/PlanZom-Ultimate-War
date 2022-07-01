@@ -13,9 +13,9 @@ public class PlantWindow extends JFrame {
 
     public enum PlantType {
         None,
-        Sunflower,
-        Peashooter,
-        FreezePeashooter
+        SunPlant,
+        PeaPlant,
+        IcePlant
     }
 
     //PlantType activePlantingBrush = PlantType.None;
@@ -36,21 +36,21 @@ public class PlantWindow extends JFrame {
         Card sunflower = new Card(new ImageIcon(this.getClass().getClassLoader().getResource("images/cards/card_sunflower.png")).getImage());
         sunflower.setLocation(110, 8);
         sunflower.setAction((ActionEvent e) -> {
-            gp.activePlantingBrush = PlantType.Sunflower;
+            gp.activePlantingBrush = PlantType.SunPlant;
         });
         getLayeredPane().add(sunflower, new Integer(3));
 
         Card peashooter = new Card(new ImageIcon(this.getClass().getClassLoader().getResource("images/cards/card_peashooter.png")).getImage());
         peashooter.setLocation(175, 8);
         peashooter.setAction((ActionEvent e) -> {
-            gp.activePlantingBrush = PlantType.Peashooter;
+            gp.activePlantingBrush = PlantType.PeaPlant;
         });
         getLayeredPane().add(peashooter, new Integer(3));
 
         Card freezepeashooter = new Card(new ImageIcon(this.getClass().getClassLoader().getResource("images/cards/card_freezepeashooter.png")).getImage());
         freezepeashooter.setLocation(240, 8);
         freezepeashooter.setAction((ActionEvent e) -> {
-            gp.activePlantingBrush = PlantType.FreezePeashooter;
+            gp.activePlantingBrush = PlantType.IcePlant;
         });
         getLayeredPane().add(freezepeashooter, new Integer(3));
 

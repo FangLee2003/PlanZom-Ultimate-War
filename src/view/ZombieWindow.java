@@ -13,9 +13,9 @@ public class ZombieWindow extends JFrame {
 
     public enum ZombieType {
         None,
-        Graveyard,
-        NormalZombie,
-        ConeHeadZombie
+        BrainGrave,
+        ZomGrave,
+        ConeHeadZomGrave
     }
 
     //PlantType activePlantingBrush = PlantType.None;
@@ -35,21 +35,21 @@ public class ZombieWindow extends JFrame {
         Card coneHeadZombie = new Card(new ImageIcon(this.getClass().getClassLoader().getResource("images/cards/card_ConeHeadZombie.png")).getImage());
         coneHeadZombie.setLocation(685, 8);
         coneHeadZombie.setAction((ActionEvent e) -> {
-            gp.activeZombieBrush = ZombieType.ConeHeadZombie;
+            gp.activeZombieBrush = ZombieType.ConeHeadZomGrave;
         });
         getLayeredPane().add(coneHeadZombie, new Integer(3));
 
         Card normalZombie = new Card(new ImageIcon(this.getClass().getClassLoader().getResource("images/cards/card_NormalZombie.png")).getImage());
         normalZombie.setLocation(755, 8);
         normalZombie.setAction((ActionEvent e) -> {
-            gp.activeZombieBrush = ZombieType.NormalZombie;
+            gp.activeZombieBrush = ZombieType.ZomGrave;
         });
         getLayeredPane().add(normalZombie, new Integer(3));
 
-        Card graveyardZombie = new Card(new ImageIcon(this.getClass().getClassLoader().getResource("images/cards/card_Graveyard.png")).getImage());
+        Card graveyardZombie = new Card(new ImageIcon(this.getClass().getClassLoader().getResource("images/cards/card_raveyard.png")).getImage());
         graveyardZombie.setLocation(825, 8);
         graveyardZombie.setAction((ActionEvent e) -> {
-            gp.activeZombieBrush = ZombieType.Graveyard;
+            gp.activeZombieBrush = ZombieType.BrainGrave;
         });
         getLayeredPane().add(graveyardZombie, new Integer(3));
 
@@ -59,7 +59,7 @@ public class ZombieWindow extends JFrame {
     }
 
     public ZombieWindow(boolean b) {
-        Menu menu = new Menu("Zombie");
+        Menu menu = new Menu("Grave");
         menu.setLocation(0, 0);
         setSize(1012, 785);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

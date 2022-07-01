@@ -87,7 +87,7 @@ public class Menu extends JPanel {
         // TODO add your handling code here:
         if (team.equals("Plant"))
             PlantWindow.begin();
-        else if (team.equals("Zombie"))
+        else if (team.equals("Grave"))
             ZombieWindow.begin();
     }//GEN-LAST:event_jPanel1MouseClicked
 

@@ -1,6 +1,6 @@
 package controller;
 
-import model.Zombie.Zombie;
+import model.Zombie.Grave;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -23,14 +23,14 @@ public class ColliderZombie extends JPanel implements MouseListener {
         setSize(100,120);
     }
 
-    public Zombie assignedZombie;
+    public Grave assignedGrave;
 
-    public void setZombie(Zombie z){
-        assignedZombie = z;
+    public void setZombie(Grave z){
+        assignedGrave = z;
     }
 
     public void removeZombie(){
-        assignedZombie = null;
+        assignedGrave = null;
     }
 
     public boolean isInsideCollider(int tx){

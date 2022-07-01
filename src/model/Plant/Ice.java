@@ -1,29 +1,22 @@
 package model.Plant;
 
-import controller.PlantGamePanel;
+import controller.*;
 import model.Lane;
 import model.Zombie.Grave;
 
 import java.awt.*;
 
 /**
- * Created by Armin on 6/25/2016.
+ * Created by Armin on 6/28/2016.
  */
-public class Pea {
+public class Ice extends Pea {
+    private int dmg = 200;
 
-    public int posX;
-    protected PlantGamePanel gp;
-    Lane lane;
-    public int y;
-    int dmg = 100;
-
-    public Pea(PlantGamePanel parent, Lane lane, int x, int y) {
-        this.gp = parent;
-        this.lane = lane;
-        posX = 103 + x * 100;
-        this.y = y;
+    public Ice(PlantGamePanel parent, Lane lane, int x, int y) {
+        super(parent, lane, x, y);
     }
 
+    @Override
     public void advance() {
 
         Rectangle pRect = new Rectangle(posX, 130 + y * 120, 28, 28);
@@ -49,8 +42,7 @@ public class Pea {
             System.out.println(gp.zomHealth);
             lane.lanePeas.get(y).remove(this);
         }
-
-        posX += 10;
+        posX += 20;
     }
 
 }
