@@ -16,7 +16,7 @@ public class BrainGrave extends Grave {
     public BrainGrave(ZombieGamePanel parent, Lane lane, int x, int y) {
         super(parent, lane, x, y);
 
-        brainProduceTimer = new Timer(1000, (ActionEvent e) -> {
+        brainProduceTimer = new Timer(5000, (ActionEvent e) -> {
             Brain brain = new Brain(gp, 560 + x * 100, 110 + y * 120, 130 + y * 120);
             gp.activeBrains.add(brain);
             gp.add(brain, new Integer(1));
