@@ -3,7 +3,6 @@ package model.Plant;
 import controller.*;
 import model.*;
 
-import java.awt.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
@@ -21,7 +20,7 @@ public class PeaPlant extends Plant {
         shootTimer = new Timer(2000, (ActionEvent e) -> {
             //System.out.println("SHOOT");
 //            if (gp.laneZombies.get(y).size() > 0) {
-            lane.lanePeas.get(y).add(new Pea(gp, lane,  x, y));
+            lane.lanePeas.get(x).add(new Pea(gp, lane, x, y));
 //            }
         });
         shootTimer.start();

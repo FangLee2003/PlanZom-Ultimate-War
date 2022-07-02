@@ -17,7 +17,7 @@ public class ZomGrave extends Grave {
         shootTimer = new Timer(2000, (ActionEvent e) -> {
             //System.out.println("SHOOT");
 //            if (lane.laneZoms.get(y).size() > 0) {
-            lane.laneZoms.get(y).add(new Zom(gp, lane, x, y));
+            lane.laneZoms.get(x).add(new Zom(gp, lane, x, y));
 //            }
         });
         shootTimer.start();

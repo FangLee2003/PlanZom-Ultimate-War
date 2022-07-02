@@ -4,7 +4,6 @@ import controller.ZombieGamePanel;
 import model.*;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 
 /**
@@ -21,7 +20,7 @@ public class ConeHeadZomGrave extends Grave {
         shootTimer = new Timer(2000, (ActionEvent e) -> {
             //System.out.println("SHOOT");
 //            if (lane.laneZoms.get(y).size() > 0) {
-            lane.laneZoms.get(y).add(new ConeHeadZom(gp, lane, x, y));
+            lane.laneZoms.get(x).add(new ConeHeadZom(gp, lane, x, y));
 //            }
         });
         shootTimer.start();

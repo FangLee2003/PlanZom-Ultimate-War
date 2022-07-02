@@ -21,7 +21,7 @@ public class IcePlant extends Plant {
         shootTimer = new Timer(1000, (ActionEvent e) -> {
             //System.out.println("SHOOT");
 //            if(gp.laneZombies.get(y).size() > 0) {
-            lane.lanePeas.get(y).add(new Ice(gp, lane,  x, y));
+            lane.lanePeas.get(x).add(new Ice(gp, lane, x, y));
 //            }
         });
         shootTimer.start();

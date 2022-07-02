@@ -3,8 +3,6 @@ package model.Zombie;
 import controller.*;
 import model.Lane;
 
-import java.awt.*;
-
 public abstract class Grave {
 
 

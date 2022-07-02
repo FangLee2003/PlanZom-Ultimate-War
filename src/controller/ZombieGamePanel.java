@@ -5,6 +5,7 @@ import model.Plant.*;
 import model.Zombie.*;
 import view.*;
 
+import java.net.*;
 import javax.swing.*;
 import javax.swing.Timer;
 import java.awt.*;
@@ -36,12 +37,12 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
     public int zomHealth = 10000;
 
     public ColliderZombie[] collidersZombie;
-    public ColliderPlant[] collidersPlant;
 
     public Lane lane;
 
     Timer redrawTimer;
     Timer advancerTimer;
+    Timer plantTimer;
 
     public ArrayList<Brain> activeBrains;
     Timer brainProducer;
@@ -51,6 +52,11 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
     public ZombieWindow.ZombieType activeZombieBrush = ZombieWindow.ZombieType.None;
 
     int mouseX, mouseY;
+
+    PlantGamePanel pP;
+
+    Scanner sc = new Scanner(System.in);
+    String plantData;
 
     public int getBrainScore() {
         return brainScore;
@@ -73,26 +79,13 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
         collidersZombie = new ColliderZombie[20];
         lane = new Lane();
 
-//        for (int i = 0; i < 25; i++) {
-//            ColliderPlant cP = new ColliderPlant();
-//            cP.setLocation(44 + (i % 5) * 100, 109 + (i / 5) * 120); // First cell (0, 0) in place (44, 109), second cell (0, 1) in place (144, 109),...
-//            cP.setAction(new PlantGamePanel.PlantActionListener((i % 5), (i / 5)));
-//            collidersPlant[i] = cP;
-//            add(cP, new Integer(0));
-//        }
-
         for (int i = 0; i < 20; i++) {
             ColliderZombie cZ = new ColliderZombie();
             cZ.setLocation(544 + (i % 4) * 100, 109 + (i / 4) * 120); // First cell (0, 0) in place (544, 109), second cell (0, 1) in place (644, 109),...
-            cZ.setAction(new ZombieActionListener((i % 4), (i / 4)));
+            cZ.setAction(new ZombieActionListener((i / 4), (i % 4)));
             collidersZombie[i] = cZ;
             add(cZ, new Integer(0));
         }
-
-        //colliders[0].setPlant(new model.model.Plant.Plant.FreezePeashooter(this,0,0));
-/*
-        colliders[9].setPlant(new model.model.Plant.Plant.Peashooter(this,0,1));
-        laneZombies.get(1).add(new model.Grave.Zom(this,1));*/
 
         activeBrains = new ArrayList<>();
 
@@ -103,6 +96,13 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
 
         advancerTimer = new Timer(60, (ActionEvent e) -> advance());
         advancerTimer.start();
+
+        plantTimer = new Timer(6000, (ActionEvent e) -> {
+            System.out.println("Input plant position: ");
+            plantData = sc.nextLine();
+            new PlantActionListener(Integer.parseInt(String.valueOf(plantData.charAt(0))), Integer.parseInt(String.valueOf(plantData.charAt(1))), Integer.parseInt(String.valueOf(plantData.charAt(2))));
+        });
+        plantTimer.start();
 
         brainProducer = new Timer(5000, (ActionEvent e) -> {
             Random rnd = new Random();
@@ -162,20 +162,22 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
         super.paintComponent(g);
         g.drawImage(bgImage, 0, 0, null);
 
-//        for (int i = 0; i < 25; i++) {
-//            ColliderPlant cP = collidersPlant[i];
-//            if (cP.assignedPlant != null) {
-//                Image plant_img = null;
-//                if (cP.assignedPlant instanceof PeaPlant) {
-//                    plant_img = pea_plant_img;
-//                } else if (cP.assignedPlant instanceof IcePlant) {
-//                    plant_img = ice_plant_img;
-//                } else {
-//                    plant_img = sun_plant_img;
-//                }
-//                g.drawImage(plant_img, 60 + (i % 5) * 100, 129 + (i / 5) * 120, null);
-//            }
-//        }
+        for (int i = 0; i < lane.lanePlants.length; i++) {
+            for (int j = 0; j < lane.lanePlants[i].length; j++) {
+                Plant cP = lane.lanePlants[i][j];
+                if (cP != null) {
+                    Image plant_img = null;
+                    if (cP instanceof PeaPlant) {
+                        plant_img = pea_plant_img;
+                    } else if (cP instanceof IcePlant) {
+                        plant_img = ice_plant_img;
+                    } else {
+                        plant_img = sun_plant_img;
+                    }
+                    g.drawImage(plant_img, 60 + j * 100, 129 + i * 120, null);
+                }
+            }
+        }
 
         for (int i = 0; i < 20; i++) {
             ColliderZombie cZ = collidersZombie[i];
@@ -203,21 +205,14 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
             }
             for (int j = 0; j < lane.laneZoms.get(i).size(); j++) {
                 Zom z = lane.laneZoms.get(i).get(j);
+
+                System.out.println(i + " " + j);
                 if (z instanceof ConeHeadZom) {
                     g.drawImage(coneheadzom_img, z.posX, 130 + (i * 120), null);
                 } else {
                     g.drawImage(zom_img, z.posX, 130 + (i * 120), null);
                 }
             }
-            //            for (Grave z : laneCharacters.get(i)) {
-//                if (z instanceof Zom) {
-//                    g.drawImage(normalZombieImage, z.posX, 109 + (i * 120), null);
-//                } else if (z instanceof ConeHeadZom) {
-//                    g.drawImage(coneHeadZombieImage, z.posX, 109 + (i * 120), null);
-//                } else {
-//                    g.drawImage(graveyardImage, z.posX, 109 + (i * 120), null);
-//                }
-//            }
         }
 
         //if(!"".equals(activePlantingBrush)){
@@ -243,27 +238,46 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
         public void actionPerformed(ActionEvent e) {
             if (activeZombieBrush == ZombieWindow.ZombieType.BrainGrave) {
                 if (getBrainScore() >= 50) {
-                    collidersZombie[x + y * 4].setZombie(new BrainGrave(ZombieGamePanel.this, lane, x, y));
+                    collidersZombie[y + x * 4].setZombie(new BrainGrave(ZombieGamePanel.this, lane, x, y));
                     setBrainScore(getBrainScore() - 50);
                 }
             }
             if (activeZombieBrush == ZombieWindow.ZombieType.ZomGrave) {
                 if (getBrainScore() >= 50) {
-                    collidersZombie[x + y * 4].setZombie(new ZomGrave(ZombieGamePanel.this, lane, x, y));
+                    collidersZombie[y + x * 4].setZombie(new ZomGrave(ZombieGamePanel.this, lane, x, y));
                     setBrainScore(getBrainScore() - 50);
                 }
             }
 
             if (activeZombieBrush == ZombieWindow.ZombieType.ConeHeadZomGrave) {
                 if (getBrainScore() >= 75) {
-                    collidersZombie[x + y * 4].setZombie(new ConeHeadZomGrave(ZombieGamePanel.this, lane, x, y));
+                    collidersZombie[y + x * 4].setZombie(new ConeHeadZomGrave(ZombieGamePanel.this, lane, x, y));
                     setBrainScore(getBrainScore() - 75);
                 }
             }
-
             activeZombieBrush = ZombieWindow.ZombieType.None;
         }
+    }
 
+    class PlantActionListener {
+
+        int type, x, y;
+
+        public PlantActionListener(int type, int x, int y) {
+            this.type = type;
+            this.x = x;
+            this.y = y;
+
+            if (type == 0) {
+                lane.lanePlants[x][y] = new SunPlant(pP, lane, x, y);
+            }
+            if (type == 1) {
+                lane.lanePlants[x][y] = new PeaPlant(pP, lane, x, y);
+            }
+            if (type == 2) {
+                lane.lanePlants[x][y] = new IcePlant(pP, lane, x, y);
+            }
+        }
     }
 
     @Override
@@ -277,7 +291,7 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
         mouseY = e.getY();
     }
 
-    static int progress = 0;
+//    static int progress = 0;
 
 //    public static void setProgress(int num) {
 //        progress = progress + num;

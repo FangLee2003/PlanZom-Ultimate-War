@@ -3,8 +3,6 @@ package model.Plant;
 import controller.*;
 import model.*;
 
-import java.awt.*;
-
 public abstract class Plant {
 
 

@@ -20,28 +20,32 @@ public class Pea {
     public Pea(PlantGamePanel parent, Lane lane, int x, int y) {
         this.gp = parent;
         this.lane = lane;
-        posX = 103 + x * 100;
+        posX = 103 + (x * 100);
         this.y = y;
     }
 
     public void advance() {
 
         Rectangle pRect = new Rectangle(posX, 130 + y * 120, 28, 28);
-        for (int i = 0; i < lane.laneGraves.get(y).size(); i++) {
-            Grave z = lane.laneGraves.get(y).get(i);
-            Rectangle zRect = new Rectangle(z.x, 109 + y * 120, 400, 120);
-            if (pRect.intersects(zRect)) {
-                z.health -= dmg;
-                boolean exit = false;
-                if (z.health < 0) {
-                    System.out.println("ZOMBIE DIE");
+        for (int i = 0; i < lane.laneGraves.length; i++) {
+            for (int j = 0; j < lane.laneGraves[i].length; j++) {
+                if (lane.laneGraves[i][j] != null) {
+                    Grave z = lane.laneGraves[i][j];
+                    Rectangle zRect = new Rectangle(544 + z.x * 100, 109 + z.y * 120, 400, 120);
+                    if (pRect.intersects(zRect)) {
+                        z.health -= dmg;
+                        boolean exit = false;
+                        if (z.health < 0) {
+                            System.out.println("ZOMBIE DIE");
 
-                    lane.laneGraves.get(y).remove(i);
-                    //PlantGamePanel.setProgress(10);
+                            lane.laneGraves[i][j] = null;
+                            //PlantGamePanel.setProgress(10);
 //                    exit = true;
-                }
-                lane.lanePeas.get(y).remove(this);
+                        }
+                        lane.lanePeas.get(y).remove(this);
 //                if(exit) break;
+                    }
+                }
             }
         }
         if (posX > 1000) {
