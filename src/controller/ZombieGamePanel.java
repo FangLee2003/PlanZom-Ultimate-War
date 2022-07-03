@@ -15,7 +15,7 @@ import java.util.*;
  * Created by Armin on 6/25/2016.
  */
 public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener {
-
+    PlantGamePanel pP;
     Image bgImage;
 
     Image sun_plant_img = new ImageIcon(this.getClass().getClassLoader().getResource("images/plants/sunflower.gif")).getImage();
@@ -48,8 +48,6 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
     public ZombieWindow.ZombieType activeZombieBrush = ZombieWindow.ZombieType.None;
 
     int mouseX, mouseY;
-
-    PlantGamePanel pP;
 
     Scanner sc = new Scanner(System.in);
     String plantData;
@@ -97,7 +95,7 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
 //            System.out.println("Input plant position: ");
 //            plantData = sc.nextLine();
         plantData = "212";
-            new PlantActionListener(Integer.parseInt(String.valueOf(plantData.charAt(0))), Integer.parseInt(String.valueOf(plantData.charAt(1))), Integer.parseInt(String.valueOf(plantData.charAt(2))));
+        new PlantActionListener(Integer.parseInt(String.valueOf(plantData.charAt(0))), Integer.parseInt(String.valueOf(plantData.charAt(1))), Integer.parseInt(String.valueOf(plantData.charAt(2))));
 //        });
 //        plantTimer.start();
 
@@ -235,20 +233,26 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
         public void actionPerformed(ActionEvent e) {
             if (activeZombieBrush == ZombieWindow.ZombieType.BrainGrave) {
                 if (getBrainScore() >= 50) {
-                    collidersZombie[n + m * 4].setZombie(new BrainGrave(ZombieGamePanel.this, data, m, n));
+                    BrainGrave z = new BrainGrave(pP, ZombieGamePanel.this, data, m, n);
+                    collidersZombie[n + m * 4].setZombie(z);
+                    data.laneGraves[m][n] = z;
                     setBrainScore(getBrainScore() - 50);
                 }
             }
             if (activeZombieBrush == ZombieWindow.ZombieType.ZomGrave) {
                 if (getBrainScore() >= 50) {
-                    collidersZombie[n + m * 4].setZombie(new ZomGrave(ZombieGamePanel.this, data, m, n));
+                    ZomGrave z = new ZomGrave(pP, ZombieGamePanel.this, data, m, n);
+                    collidersZombie[n + m * 4].setZombie(z);
+                    data.laneGraves[m][n] = z;
                     setBrainScore(getBrainScore() - 50);
                 }
             }
 
             if (activeZombieBrush == ZombieWindow.ZombieType.ConeHeadZomGrave) {
                 if (getBrainScore() >= 75) {
-                    collidersZombie[n + m * 4].setZombie(new ConeHeadZomGrave(ZombieGamePanel.this, data, m, n));
+                    ConeHeadZomGrave z = new ConeHeadZomGrave(pP, ZombieGamePanel.this, data, m, n);
+                    collidersZombie[n + m * 4].setZombie(z);
+                    data.laneGraves[m][n] = z;
                     setBrainScore(getBrainScore() - 75);
                 }
             }
@@ -266,13 +270,13 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
             this.n = n;
 
             if (type == 0) {
-                data.lanePlants[m][n] = new SunPlant(pP, data, m, n);
+                data.lanePlants[m][n] = new SunPlant(pP, ZombieGamePanel.this, data, m, n);
             }
             if (type == 1) {
-                data.lanePlants[m][n] = new PeaPlant(pP, data, m, n);
+                data.lanePlants[m][n] = new PeaPlant(pP, ZombieGamePanel.this, data, m, n);
             }
             if (type == 2) {
-                data.lanePlants[m][n] = new IcePlant(pP, data, m, n);
+                data.lanePlants[m][n] = new IcePlant(pP, ZombieGamePanel.this, data, m, n);
             }
         }
     }

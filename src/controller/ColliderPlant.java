@@ -29,7 +29,7 @@ public class ColliderPlant extends JPanel implements MouseListener {
         assignedPlant = p;
     }
 
-    public void removeCharacter(){
+    public void removePlant(){
         assignedPlant.stop();
         assignedPlant = null;
     }

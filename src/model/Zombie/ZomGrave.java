@@ -1,5 +1,6 @@
 package model.Zombie;
 
+import controller.PlantGamePanel;
 import controller.ZombieGamePanel;
 import model.Data;
 
@@ -10,13 +11,13 @@ public class ZomGrave extends Grave {
     public int health = 2000;
     public Timer shootTimer;
 
-    public ZomGrave(ZombieGamePanel parent, Data data, int m, int n) {
-        super(parent, data, m, n);
+    public ZomGrave(PlantGamePanel pP, ZombieGamePanel zP, Data data, int m, int n) {
+        super(pP,zP, data, m, n);
 
         shootTimer = new Timer(2000, (ActionEvent e) -> {
             //System.out.println("SHOOT");
 //            if (data.laneZoms.get(y).size() > 0) {
-            data.laneZoms.get(m).add(new Zom(gp, data, m, n));
+            data.laneZoms.get(m).add(new Zom(this.pP,this.zP, data, m, n));
 //            }
         });
         shootTimer.start();

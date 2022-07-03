@@ -1,5 +1,6 @@
 package model.Zombie;
 
+import controller.PlantGamePanel;
 import controller.ZombieGamePanel;
 import model.*;
 
@@ -12,15 +13,13 @@ import java.awt.event.ActionEvent;
 public class ConeHeadZomGrave extends Grave {
     public int health = 3000;
     public Timer shootTimer;
-    Data data;
-
-    public ConeHeadZomGrave(ZombieGamePanel parent, Data data, int m, int n) {
-        super(parent, data, m, n);
+    public ConeHeadZomGrave(PlantGamePanel pP, ZombieGamePanel zP, Data data, int m, int n) {
+        super(pP, zP, data, m, n);
 
         shootTimer = new Timer(2000, (ActionEvent e) -> {
             //System.out.println("SHOOT");
 //            if (data.laneZoms.get(y).size() > 0) {
-            data.laneZoms.get(m).add(new ConeHeadZom(gp, data, m, n));
+            data.laneZoms.get(m).add(new ConeHeadZom(this.pP, this.zP, data, m, n));
 //            }
         });
         shootTimer.start();

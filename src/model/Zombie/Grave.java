@@ -4,24 +4,19 @@ import controller.*;
 import model.Data;
 
 public abstract class Grave {
-
-
-    /**
-     * Created by Armin on 6/25/2016.
-     */
-
-
     public int health = 2000;
+
+    public PlantGamePanel pP;
+    public ZombieGamePanel zP;
+
+    public Data data;
 
     public int m;
     public int n;
 
-    public Data data;
-    public ZombieGamePanel gp;
-
-
-    public Grave(ZombieGamePanel parent, Data data, int m, int n) {
-        gp = parent;
+    public Grave(PlantGamePanel pP, ZombieGamePanel zP, Data data, int m, int n) {
+        this.pP = pP;
+        this.zP = zP;
         this.data = data;
         this.m = m;
         this.n = n;

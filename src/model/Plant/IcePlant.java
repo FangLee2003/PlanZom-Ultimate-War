@@ -14,13 +14,14 @@ public class IcePlant extends Plant {
     public Timer shootTimer;
     Data data;
 
-    public IcePlant(PlantGamePanel parent, Data data, int m, int n) {
-        super(parent, data, m, n);
+    public IcePlant(PlantGamePanel pP, ZombieGamePanel zP,Data data, int m, int n) {
+        super(pP, zP, data, m, n);
+
 
         shootTimer = new Timer(1000, (ActionEvent e) -> {
             //System.out.println("SHOOT");
 //            if(gp.laneZombies.get(y).size() > 0) {
-            data.lanePeas.get(m).add(new Ice(gp, data, m, n));
+            data.lanePeas.get(m).add(new Ice(this.pP, this.zP, data, m, n));
 //            }
         });
         shootTimer.start();

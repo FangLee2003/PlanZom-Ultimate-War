@@ -30,6 +30,7 @@ public class ColliderZombie extends JPanel implements MouseListener {
     }
 
     public void removeZombie(){
+        assignedGrave.stop();
         assignedGrave = null;
     }
 

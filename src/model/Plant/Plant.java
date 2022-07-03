@@ -4,22 +4,18 @@ import controller.*;
 import model.*;
 
 public abstract class Plant {
-
-
-    /**
-     * Created by Armin on 6/25/2016.
-     */
-
     public int health = 1000;
 
     public int m;
     public int n;
 
-    public PlantGamePanel gp;
+    public PlantGamePanel pP;
+    public ZombieGamePanel zP;
     public Data data;
 
-    public Plant(PlantGamePanel parent, Data data, int m, int n) {
-        gp = parent;
+    public Plant(PlantGamePanel pP, ZombieGamePanel zP, Data data, int m, int n) {
+        this.pP = pP;
+        this.zP = zP;
         this.data = data;
         this.m = m;
         this.n = n;
