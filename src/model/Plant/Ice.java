@@ -12,19 +12,19 @@ import java.awt.*;
 public class Ice extends Pea {
     private int dmg = 200;
 
-    public Ice(PlantGamePanel parent, Lane lane, int x, int y) {
-        super(parent, lane, x, y);
+    public Ice(PlantGamePanel parent, Lane lane, int row, int column) {
+        super(parent, lane, row, column);
     }
 
     @Override
     public void advance() {
 
-        Rectangle pRect = new Rectangle(posX, 130 + y * 120, 28, 28);
+        Rectangle pRect = new Rectangle(posX, 130 + row * 120, 28, 28);
         for (int i = 0; i < lane.laneGraves.length; i++) {
             for (int j = 0; j < lane.laneGraves[i].length; j++) {
                 if (lane.laneGraves[i][j] != null) {
                     Grave z = lane.laneGraves[i][j];
-                    Rectangle zRect = new Rectangle(544 + z.x * 100, 109 + y * 120, 400, 120);
+                    Rectangle zRect = new Rectangle(544 + z.x * 100, 109 + row * 120, 400, 120);
                     if (pRect.intersects(zRect)) {
                         z.health -= dmg;
                         boolean exit = false;
@@ -35,7 +35,7 @@ public class Ice extends Pea {
                             //PlantGamePanel.setProgress(10);
 //                    exit = true;
                         }
-                        lane.lanePeas.get(y).remove(this);
+                        lane.lanePeas.get(row).remove(this);
 //                if(exit) break;
                     }
                 }
@@ -44,7 +44,7 @@ public class Ice extends Pea {
         if (posX > 1000) {
             gp.zomHealth -= dmg;
             System.out.println(gp.zomHealth);
-            lane.lanePeas.get(y).remove(this);
+            lane.lanePeas.get(row).remove(this);
         }
         posX += 20;
     }

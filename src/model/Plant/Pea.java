@@ -14,19 +14,19 @@ public class Pea {
     public int posX;
     protected PlantGamePanel gp;
     Lane lane;
-    public int y;
+    public int row;
     int dmg = 100;
 
-    public Pea(PlantGamePanel parent, Lane lane, int x, int y) {
+    public Pea(PlantGamePanel parent, Lane lane, int row, int column) {
         this.gp = parent;
         this.lane = lane;
-        posX = 103 + (x * 100);
-        this.y = y;
+        posX = 103 + (column * 100);
+        this.row = row;
     }
 
     public void advance() {
 
-        Rectangle pRect = new Rectangle(posX, 130 + y * 120, 28, 28);
+        Rectangle pRect = new Rectangle(posX, 130 + row * 120, 28, 28);
         for (int i = 0; i < lane.laneGraves.length; i++) {
             for (int j = 0; j < lane.laneGraves[i].length; j++) {
                 if (lane.laneGraves[i][j] != null) {
@@ -42,7 +42,7 @@ public class Pea {
                             //PlantGamePanel.setProgress(10);
 //                    exit = true;
                         }
-                        lane.lanePeas.get(y).remove(this);
+                        lane.lanePeas.get(row).remove(this);
 //                if(exit) break;
                     }
                 }
@@ -51,7 +51,7 @@ public class Pea {
         if (posX > 1000) {
             gp.zomHealth -= dmg;
             System.out.println(gp.zomHealth);
-            lane.lanePeas.get(y).remove(this);
+            lane.lanePeas.get(row).remove(this);
         }
 
         posX += 10;

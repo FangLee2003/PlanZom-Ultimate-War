@@ -135,6 +135,7 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < lane.lanePeas.get(i).size(); j++) {
                 Pea p = lane.lanePeas.get(i).get(j);
+
                 p.advance();
                 if (zomHealth == 0) {
                     System.out.println("PLANTS CLEARED ZOMBIES!");
@@ -206,7 +207,6 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
             for (int j = 0; j < lane.laneZoms.get(i).size(); j++) {
                 Zom z = lane.laneZoms.get(i).get(j);
 
-                System.out.println(i + " " + j);
                 if (z instanceof ConeHeadZom) {
                     g.drawImage(coneheadzom_img, z.posX, 130 + (i * 120), null);
                 } else {
