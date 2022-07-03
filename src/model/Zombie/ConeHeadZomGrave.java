@@ -12,15 +12,15 @@ import java.awt.event.ActionEvent;
 public class ConeHeadZomGrave extends Grave {
     public int health = 3000;
     public Timer shootTimer;
-    Lane lane;
+    Data data;
 
-    public ConeHeadZomGrave(ZombieGamePanel parent, Lane lane, int x, int y) {
-        super(parent, lane, x, y);
+    public ConeHeadZomGrave(ZombieGamePanel parent, Data data, int m, int n) {
+        super(parent, data, m, n);
 
         shootTimer = new Timer(2000, (ActionEvent e) -> {
             //System.out.println("SHOOT");
-//            if (lane.laneZoms.get(y).size() > 0) {
-            lane.laneZoms.get(x).add(new ConeHeadZom(gp, lane, x, y));
+//            if (data.laneZoms.get(y).size() > 0) {
+            data.laneZoms.get(m).add(new ConeHeadZom(gp, data, m, n));
 //            }
         });
         shootTimer.start();

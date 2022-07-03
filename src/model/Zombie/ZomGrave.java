@@ -1,23 +1,22 @@
 package model.Zombie;
 
 import controller.ZombieGamePanel;
-import model.Lane;
+import model.Data;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class ZomGrave extends Grave {
     public int health = 2000;
     public Timer shootTimer;
 
-    public ZomGrave(ZombieGamePanel parent, Lane lane, int x, int y) {
-        super(parent, lane, x, y);
+    public ZomGrave(ZombieGamePanel parent, Data data, int m, int n) {
+        super(parent, data, m, n);
 
         shootTimer = new Timer(2000, (ActionEvent e) -> {
             //System.out.println("SHOOT");
-//            if (lane.laneZoms.get(y).size() > 0) {
-            lane.laneZoms.get(x).add(new Zom(gp, lane, x, y));
+//            if (data.laneZoms.get(y).size() > 0) {
+            data.laneZoms.get(m).add(new Zom(gp, data, m, n));
 //            }
         });
         shootTimer.start();

@@ -1,7 +1,7 @@
 package model.Plant;
 
 import controller.*;
-import model.Lane;
+import model.Data;
 import model.Zombie.Grave;
 
 import java.awt.*;
@@ -12,39 +12,39 @@ import java.awt.*;
 public class Ice extends Pea {
     private int dmg = 200;
 
-    public Ice(PlantGamePanel parent, Lane lane, int row, int column) {
-        super(parent, lane, row, column);
+    public Ice(PlantGamePanel parent, Data data, int m, int n) {
+        super(parent, data, m, n);
     }
 
     @Override
     public void advance() {
 
-        Rectangle pRect = new Rectangle(posX, 130 + row * 120, 28, 28);
-        for (int i = 0; i < lane.laneGraves.length; i++) {
-            for (int j = 0; j < lane.laneGraves[i].length; j++) {
-                if (lane.laneGraves[i][j] != null) {
-                    Grave z = lane.laneGraves[i][j];
-                    Rectangle zRect = new Rectangle(544 + z.x * 100, 109 + row * 120, 400, 120);
+        Rectangle pRect = new Rectangle(posX, 130 + m * 120, 28, 28);
+        for (int i = 0; i < data.laneGraves.length; i++) {
+            for (int j = 0; j < data.laneGraves[i].length; j++) {
+                if (data.laneGraves[i][j] != null) {
+                    Grave z = data.laneGraves[i][j];
+                    Rectangle zRect = new Rectangle(544 + z.n * 100, 109 + z.m * 120, 120, 120);
                     if (pRect.intersects(zRect)) {
                         z.health -= dmg;
                         boolean exit = false;
                         if (z.health < 0) {
                             System.out.println("ZOMBIE DIE");
 
-                            lane.laneGraves[i][j] = null;
+                            data.laneGraves[i][j] = null;
                             //PlantGamePanel.setProgress(10);
 //                    exit = true;
                         }
-                        lane.lanePeas.get(row).remove(this);
+                        data.lanePeas.get(m).remove(this);
 //                if(exit) break;
                     }
                 }
             }
         }
         if (posX > 1000) {
-            gp.zomHealth -= dmg;
-            System.out.println(gp.zomHealth);
-            lane.lanePeas.get(row).remove(this);
+            data.zomHealth -= dmg;
+            System.out.println(data.zomHealth);
+            data.lanePeas.get(m).remove(this);
         }
         posX += 20;
     }

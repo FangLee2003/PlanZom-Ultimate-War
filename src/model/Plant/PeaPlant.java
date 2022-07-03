@@ -14,13 +14,13 @@ public class PeaPlant extends Plant {
     public Timer shootTimer;
 
 
-    public PeaPlant(PlantGamePanel parent, Lane lane, int x, int y) {
-        super(parent, lane, x, y);
+    public PeaPlant(PlantGamePanel parent, Data data, int m, int n) {
+        super(parent, data, m, n);
 
         shootTimer = new Timer(2000, (ActionEvent e) -> {
             //System.out.println("SHOOT");
 //            if (gp.laneZombies.get(y).size() > 0) {
-            lane.lanePeas.get(x).add(new Pea(gp, lane, x, y));
+            data.lanePeas.get(m).add(new Pea(gp, data, m, n));
 //            }
         });
         shootTimer.start();

@@ -1,9 +1,8 @@
 package model.Zombie;
 
 import controller.*;
-import model.Lane;
+import model.Data;
 
-import java.awt.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
@@ -13,11 +12,11 @@ import java.awt.event.ActionEvent;
 public class BrainGrave extends Grave {
     Timer brainProduceTimer;
 
-    public BrainGrave(ZombieGamePanel parent, Lane lane, int x, int y) {
-        super(parent, lane, x, y);
+    public BrainGrave(ZombieGamePanel parent, Data data, int m, int n) {
+        super(parent, data, m, n);
 
         brainProduceTimer = new Timer(5000, (ActionEvent e) -> {
-            Brain brain = new Brain(gp, 560 + x * 100, 110 + y * 120, 130 + y * 120);
+            Brain brain = new Brain(gp, 560 + n * 100, 110 + m * 120, 130 + n * 120);
             gp.activeBrains.add(brain);
             gp.add(brain, new Integer(1));
         });

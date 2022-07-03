@@ -1,6 +1,6 @@
 package controller;
 
-import model.Lane;
+import model.Data;
 import model.Plant.*;
 import model.Zombie.*;
 import view.*;
@@ -29,12 +29,9 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
     public Image zom_img = new ImageIcon(this.getClass().getClassLoader().getResource("images/zombies/normalzombie.png")).getImage();
     public Image coneheadzom_img = new ImageIcon(this.getClass().getClassLoader().getResource("images/zombies/coneheadzombie.png")).getImage();
 
-    public int planHealth = 10000;
-    public int zomHealth = 10000;
-
     public ColliderPlant[] collidersPlant;
 
-    public Lane lane;
+    public Data data;
 
     Timer redrawTimer;
     Timer advancerTimer;
@@ -72,7 +69,7 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
         bgImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/background1.png")).getImage();
 
         collidersPlant = new ColliderPlant[25];
-        lane = new Lane();
+        data = new Data();
 
         for (int i = 0; i < 25; i++) {
             ColliderPlant cP = new ColliderPlant();
@@ -92,12 +89,13 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
         advancerTimer = new Timer(60, (ActionEvent e) -> advance());
         advancerTimer.start();
 
-        graveTimer = new Timer(6000, (ActionEvent e) -> {
-            System.out.println("Input grave position: ");
-            zomData = sc.nextLine();
-            new ZombieActionListener(Integer.parseInt(String.valueOf(zomData.charAt(0))), Integer.parseInt(String.valueOf(zomData.charAt(1))), Integer.parseInt(String.valueOf(zomData.charAt(2))));
-        });
-        graveTimer.start();
+//        graveTimer = new Timer(6000, (ActionEvent e) -> {
+//            System.out.println("Input grave position: ");
+//            zomData = sc.nextLine();
+        zomData = "212";
+        new ZombieActionListener(Integer.parseInt(String.valueOf(zomData.charAt(0))), Integer.parseInt(String.valueOf(zomData.charAt(1))), Integer.parseInt(String.valueOf(zomData.charAt(2))));
+//        });
+//        graveTimer.start();
 
         sunProducer = new Timer(5000, (ActionEvent e) -> {
             Random rnd = new Random();
@@ -128,18 +126,18 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
 
     private void advance() {
         for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < lane.lanePeas.get(i).size(); j++) {
-                Pea p = lane.lanePeas.get(i).get(j);
+            for (int j = 0; j < data.lanePeas.get(i).size(); j++) {
+                Pea p = data.lanePeas.get(i).get(j);
                 p.advance();
-                if (zomHealth == 0) {
+                if (data.zomHealth == 0) {
                     System.out.println("PLANTS CLEARED ZOMBIES!");
                     System.exit(0);
                 }
             }
-            for (int j = 0; j < lane.laneZoms.get(i).size(); j++) {
-                Zom z = lane.laneZoms.get(i).get(j);
+            for (int j = 0; j < data.laneZoms.get(i).size(); j++) {
+                Zom z = data.laneZoms.get(i).get(j);
                 z.advance();
-                if (planHealth == 0) {
+                if (data.plantHealth == 0) {
                     System.out.println("ZOMBIES ATE BRAIN!");
                     System.exit(0);
                 }
@@ -171,9 +169,9 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
                 g.drawImage(plant_img, 60 + (i % 5) * 100, 129 + (i / 5) * 120, null);
             }
         }
-        for (int i = 0; i < lane.laneGraves.length; i++) {
-            for (int j = 0; j < lane.laneGraves[i].length; j++) {
-                Grave cZ = lane.laneGraves[i][j];
+        for (int i = 0; i < data.laneGraves.length; i++) {
+            for (int j = 0; j < data.laneGraves[i].length; j++) {
+                Grave cZ = data.laneGraves[i][j];
                 if (cZ != null) {
                     Image zombie_img = null;
                     if (cZ instanceof ZomGrave) {
@@ -188,16 +186,16 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
             }
         }
         for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < lane.lanePeas.get(i).size(); j++) {
-                Pea p = lane.lanePeas.get(i).get(j);
+            for (int j = 0; j < data.lanePeas.get(i).size(); j++) {
+                Pea p = data.lanePeas.get(i).get(j);
                 if (p instanceof Ice) {
                     g.drawImage(ice_img, p.posX, 130 + (i * 120), null);
                 } else {
                     g.drawImage(pea_img, p.posX, 130 + (i * 120), null);
                 }
             }
-            for (int j = 0; j < lane.laneZoms.get(i).size(); j++) {
-                Zom z = lane.laneZoms.get(i).get(j);
+            for (int j = 0; j < data.laneZoms.get(i).size(); j++) {
+                Zom z = data.laneZoms.get(i).get(j);
                 if (z instanceof ConeHeadZom) {
                     g.drawImage(coneheadzom_img, z.posX, 130 + (i * 120), null);
                 } else {
@@ -218,31 +216,31 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
 
     class PlantActionListener implements ActionListener {
 
-        int x, y;
+        int m, n;
 
-        public PlantActionListener(int x, int y) {
-            this.x = x;
-            this.y = y;
+        public PlantActionListener(int m, int n) {
+            this.m = m;
+            this.n = n;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
             if (activePlantingBrush == PlantWindow.PlantType.SunPlant) {
                 if (getSunScore() >= 50) {
-                    collidersPlant[y + x * 5].setCharacter(new SunPlant(PlantGamePanel.this, lane, x, y));
+                    collidersPlant[n + m * 5].setCharacter(new SunPlant(PlantGamePanel.this, data, m, n));
                     setSunScore(getSunScore() - 50);
                 }
             }
             if (activePlantingBrush == PlantWindow.PlantType.PeaPlant) {
                 if (getSunScore() >= 100) {
-                    collidersPlant[y + x * 5].setCharacter(new PeaPlant(PlantGamePanel.this, lane, x, y));
+                    collidersPlant[n + m * 5].setCharacter(new PeaPlant(PlantGamePanel.this, data, m, n));
                     setSunScore(getSunScore() - 100);
                 }
             }
 
             if (activePlantingBrush == PlantWindow.PlantType.IcePlant) {
                 if (getSunScore() >= 175) {
-                    collidersPlant[y + x * 5].setCharacter(new IcePlant(PlantGamePanel.this, lane, x, y));
+                    collidersPlant[n + m * 5].setCharacter(new IcePlant(PlantGamePanel.this, data, m, n));
                     setSunScore(getSunScore() - 175);
                 }
             }
@@ -252,21 +250,21 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
 
     class ZombieActionListener {
 
-        int type, x, y;
+        int type, m, n;
 
-        public ZombieActionListener(int type, int x, int y) {
+        public ZombieActionListener(int type, int m, int n) {
             this.type = type;
-            this.x = x;
-            this.y = y;
+            this.m = m;
+            this.n = n;
 
             if (type == 0) {
-                lane.laneGraves[x][y] = new BrainGrave(zP, lane, x, y);
+                data.laneGraves[m][n] = new BrainGrave(zP, data, m, n);
             }
             if (type == 1) {
-                lane.laneGraves[x][y] = new ZomGrave(zP, lane, x, y);
+                data.laneGraves[m][n] = new ZomGrave(zP, data, m, n);
             }
             if (type == 2) {
-                lane.laneGraves[x][y] = new ConeHeadZomGrave(zP, lane, x, y);
+                data.laneGraves[m][n] = new ConeHeadZomGrave(zP, data, m, n);
             }
         }
     }

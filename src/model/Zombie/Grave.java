@@ -1,7 +1,7 @@
 package model.Zombie;
 
 import controller.*;
-import model.Lane;
+import model.Data;
 
 public abstract class Grave {
 
@@ -13,18 +13,18 @@ public abstract class Grave {
 
     public int health = 2000;
 
-    public int x;
-    public int y;
+    public int m;
+    public int n;
 
-    public Lane lane;
+    public Data data;
     public ZombieGamePanel gp;
 
 
-    public Grave(ZombieGamePanel parent, Lane lane, int x, int y) {
+    public Grave(ZombieGamePanel parent, Data data, int m, int n) {
         gp = parent;
-        this.lane = lane;
-        this.x = x;
-        this.y = y;
+        this.data = data;
+        this.m = m;
+        this.n = n;
     }
 
     public void stop() {

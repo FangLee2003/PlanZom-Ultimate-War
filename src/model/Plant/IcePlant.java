@@ -1,9 +1,8 @@
 package model.Plant;
 
 import controller.*;
-import model.Lane;
+import model.Data;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
@@ -13,15 +12,15 @@ import javax.swing.*;
 public class IcePlant extends Plant {
     public int health = 2000;
     public Timer shootTimer;
-    Lane lane;
+    Data data;
 
-    public IcePlant(PlantGamePanel parent, Lane lane, int x, int y) {
-        super(parent, lane, x, y);
+    public IcePlant(PlantGamePanel parent, Data data, int m, int n) {
+        super(parent, data, m, n);
 
         shootTimer = new Timer(1000, (ActionEvent e) -> {
             //System.out.println("SHOOT");
 //            if(gp.laneZombies.get(y).size() > 0) {
-            lane.lanePeas.get(x).add(new Ice(gp, lane, x, y));
+            data.lanePeas.get(m).add(new Ice(gp, data, m, n));
 //            }
         });
         shootTimer.start();

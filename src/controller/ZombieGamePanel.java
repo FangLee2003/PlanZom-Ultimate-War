@@ -1,11 +1,10 @@
 package controller;
 
-import model.Lane;
+import model.Data;
 import model.Plant.*;
 import model.Zombie.*;
 import view.*;
 
-import java.net.*;
 import javax.swing.*;
 import javax.swing.Timer;
 import java.awt.*;
@@ -33,12 +32,9 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
     public Image zom_img = new ImageIcon(this.getClass().getClassLoader().getResource("images/zombies/normalzombie.png")).getImage();
     public Image coneheadzom_img = new ImageIcon(this.getClass().getClassLoader().getResource("images/zombies/coneheadzombie.png")).getImage();
 
-    public int planHealth = 10000;
-    public int zomHealth = 10000;
-
     public ColliderZombie[] collidersZombie;
 
-    public Lane lane;
+    public Data data;
 
     Timer redrawTimer;
     Timer advancerTimer;
@@ -77,7 +73,7 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
         bgImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/background2.png")).getImage();
 
         collidersZombie = new ColliderZombie[20];
-        lane = new Lane();
+        data = new Data();
 
         for (int i = 0; i < 20; i++) {
             ColliderZombie cZ = new ColliderZombie();
@@ -97,12 +93,13 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
         advancerTimer = new Timer(60, (ActionEvent e) -> advance());
         advancerTimer.start();
 
-        plantTimer = new Timer(6000, (ActionEvent e) -> {
-            System.out.println("Input plant position: ");
-            plantData = sc.nextLine();
+//        plantTimer = new Timer(6000, (ActionEvent e) -> {
+//            System.out.println("Input plant position: ");
+//            plantData = sc.nextLine();
+        plantData = "212";
             new PlantActionListener(Integer.parseInt(String.valueOf(plantData.charAt(0))), Integer.parseInt(String.valueOf(plantData.charAt(1))), Integer.parseInt(String.valueOf(plantData.charAt(2))));
-        });
-        plantTimer.start();
+//        });
+//        plantTimer.start();
 
         brainProducer = new Timer(5000, (ActionEvent e) -> {
             Random rnd = new Random();
@@ -133,19 +130,19 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
 
     private void advance() {
         for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < lane.lanePeas.get(i).size(); j++) {
-                Pea p = lane.lanePeas.get(i).get(j);
+            for (int j = 0; j < data.lanePeas.get(i).size(); j++) {
+                Pea p = data.lanePeas.get(i).get(j);
 
                 p.advance();
-                if (zomHealth == 0) {
+                if (data.zomHealth == 0) {
                     System.out.println("PLANTS CLEARED ZOMBIES!");
                     System.exit(0);
                 }
             }
-            for (int j = 0; j < lane.laneZoms.get(i).size(); j++) {
-                Zom z = lane.laneZoms.get(i).get(j);
+            for (int j = 0; j < data.laneZoms.get(i).size(); j++) {
+                Zom z = data.laneZoms.get(i).get(j);
                 z.advance();
-                if (planHealth == 0) {
+                if (data.plantHealth == 0) {
                     System.out.println("ZOMBIES ATE BRAIN!");
                     System.exit(0);
                 }
@@ -163,9 +160,9 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
         super.paintComponent(g);
         g.drawImage(bgImage, 0, 0, null);
 
-        for (int i = 0; i < lane.lanePlants.length; i++) {
-            for (int j = 0; j < lane.lanePlants[i].length; j++) {
-                Plant cP = lane.lanePlants[i][j];
+        for (int i = 0; i < data.lanePlants.length; i++) {
+            for (int j = 0; j < data.lanePlants[i].length; j++) {
+                Plant cP = data.lanePlants[i][j];
                 if (cP != null) {
                     Image plant_img = null;
                     if (cP instanceof PeaPlant) {
@@ -196,16 +193,16 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
         }
 
         for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < lane.lanePeas.get(i).size(); j++) {
-                Pea p = lane.lanePeas.get(i).get(j);
+            for (int j = 0; j < data.lanePeas.get(i).size(); j++) {
+                Pea p = data.lanePeas.get(i).get(j);
                 if (p instanceof Ice) {
                     g.drawImage(ice_img, p.posX, 130 + (i * 120), null);
                 } else {
                     g.drawImage(pea_img, p.posX, 130 + (i * 120), null);
                 }
             }
-            for (int j = 0; j < lane.laneZoms.get(i).size(); j++) {
-                Zom z = lane.laneZoms.get(i).get(j);
+            for (int j = 0; j < data.laneZoms.get(i).size(); j++) {
+                Zom z = data.laneZoms.get(i).get(j);
 
                 if (z instanceof ConeHeadZom) {
                     g.drawImage(coneheadzom_img, z.posX, 130 + (i * 120), null);
@@ -227,31 +224,31 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
 
     class ZombieActionListener implements ActionListener {
 
-        int x, y;
+        int m, n;
 
-        public ZombieActionListener(int x, int y) {
-            this.x = x;
-            this.y = y;
+        public ZombieActionListener(int m, int n) {
+            this.m = m;
+            this.n = n;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
             if (activeZombieBrush == ZombieWindow.ZombieType.BrainGrave) {
                 if (getBrainScore() >= 50) {
-                    collidersZombie[y + x * 4].setZombie(new BrainGrave(ZombieGamePanel.this, lane, x, y));
+                    collidersZombie[n + m * 4].setZombie(new BrainGrave(ZombieGamePanel.this, data, m, n));
                     setBrainScore(getBrainScore() - 50);
                 }
             }
             if (activeZombieBrush == ZombieWindow.ZombieType.ZomGrave) {
                 if (getBrainScore() >= 50) {
-                    collidersZombie[y + x * 4].setZombie(new ZomGrave(ZombieGamePanel.this, lane, x, y));
+                    collidersZombie[n + m * 4].setZombie(new ZomGrave(ZombieGamePanel.this, data, m, n));
                     setBrainScore(getBrainScore() - 50);
                 }
             }
 
             if (activeZombieBrush == ZombieWindow.ZombieType.ConeHeadZomGrave) {
                 if (getBrainScore() >= 75) {
-                    collidersZombie[y + x * 4].setZombie(new ConeHeadZomGrave(ZombieGamePanel.this, lane, x, y));
+                    collidersZombie[n + m * 4].setZombie(new ConeHeadZomGrave(ZombieGamePanel.this, data, m, n));
                     setBrainScore(getBrainScore() - 75);
                 }
             }
@@ -261,21 +258,21 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
 
     class PlantActionListener {
 
-        int type, x, y;
+        int type, m, n;
 
-        public PlantActionListener(int type, int x, int y) {
+        public PlantActionListener(int type, int m, int n) {
             this.type = type;
-            this.x = x;
-            this.y = y;
+            this.m = m;
+            this.n = n;
 
             if (type == 0) {
-                lane.lanePlants[x][y] = new SunPlant(pP, lane, x, y);
+                data.lanePlants[m][n] = new SunPlant(pP, data, m, n);
             }
             if (type == 1) {
-                lane.lanePlants[x][y] = new PeaPlant(pP, lane, x, y);
+                data.lanePlants[m][n] = new PeaPlant(pP, data, m, n);
             }
             if (type == 2) {
-                lane.lanePlants[x][y] = new IcePlant(pP, lane, x, y);
+                data.lanePlants[m][n] = new IcePlant(pP, data, m, n);
             }
         }
     }
