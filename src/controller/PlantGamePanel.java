@@ -68,6 +68,7 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
         bgImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/background1.png")).getImage();
 
         collidersPlant = new ColliderPlant[25];
+
         data = new Data();
 
         for (int i = 0; i < 25; i++) {

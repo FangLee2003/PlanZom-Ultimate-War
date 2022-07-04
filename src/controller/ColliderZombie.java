@@ -8,9 +8,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-/**
- * Created by Armin on 6/25/2016.
- */
 public class ColliderZombie extends JPanel implements MouseListener {
 
     ActionListener al;

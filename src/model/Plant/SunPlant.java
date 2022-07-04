@@ -6,9 +6,6 @@ import model.Data;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-/**
- * Created by Armin on 6/28/2016.
- */
 public class SunPlant extends Plant {
     Timer sunProduceTimer;
 

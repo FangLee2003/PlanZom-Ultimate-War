@@ -7,9 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-/**
- * Created by Armin on 6/28/2016.
- */
 public class Card extends JPanel implements MouseListener {
 
     Image img;

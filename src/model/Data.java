@@ -21,4 +21,14 @@ public class Data {
             laneZoms.add(new ArrayList<>());
         }
     }
+
+    public void removePlant(int m, int n) {
+        lanePlants[m][n].stop();
+        lanePlants[m][n] = null;
+    }
+
+    public void removeGrave(int m, int n) {
+        laneGraves[m][n].stop();
+        laneGraves[m][n] = null;
+    }
 }

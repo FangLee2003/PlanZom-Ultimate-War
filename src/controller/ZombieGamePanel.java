@@ -11,9 +11,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
-/**
- * Created by Armin on 6/25/2016.
- */
 public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener {
     PlantGamePanel pP;
     Image bgImage;
@@ -71,6 +68,7 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
         bgImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/background2.png")).getImage();
 
         collidersZombie = new ColliderZombie[20];
+
         data = new Data();
 
         for (int i = 0; i < 20; i++) {

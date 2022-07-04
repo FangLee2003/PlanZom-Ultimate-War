@@ -6,9 +6,6 @@ import model.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-/**
- * Created by Armin on 6/25/2016.
- */
 public class PeaPlant extends Plant {
     public int health = 1000;
     public Timer shootTimer;

@@ -62,10 +62,13 @@ public class PlantWindow extends JFrame {
     public PlantWindow(boolean b) {
         Menu menu = new Menu("Plant");
         menu.setLocation(0, 0);
+
         setSize(1012, 785);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
         getLayeredPane().add(menu, new Integer(0));
         menu.repaint();
+
         setResizable(false);
         setVisible(true);
     }

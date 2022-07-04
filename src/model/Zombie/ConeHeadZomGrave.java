@@ -7,9 +7,6 @@ import model.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-/**
- * Created by Armin on 6/25/2016.
- */
 public class ConeHeadZomGrave extends Grave {
     public int health = 3000;
     public Timer shootTimer;

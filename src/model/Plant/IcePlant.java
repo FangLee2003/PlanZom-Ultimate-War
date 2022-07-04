@@ -6,9 +6,6 @@ import model.Data;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
-/**
- * Created by Armin on 6/25/2016.
- */
 public class IcePlant extends Plant {
     public int health = 2000;
     public Timer shootTimer;
