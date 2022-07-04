@@ -4,6 +4,7 @@ import controller.PlantGamePanel;
 import model.Card;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 
@@ -21,10 +22,15 @@ public class PlantWindow extends JFrame {
 
     //PlantType activePlantingBrush = PlantType.None;
 
-    public PlantWindow() throws IOException {
+    public PlantWindow() throws IOException, InterruptedException {
         setSize(1012, 785);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(null);
+        setLocationRelativeTo(null);
+        setResizable(false);
+
+        setTitle("PlanZom Ultimate War");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/logo.png")));
 
         JLabel sun = new JLabel("SUN");
         sun.setLocation(37, 80);
@@ -56,27 +62,32 @@ public class PlantWindow extends JFrame {
         getLayeredPane().add(freezepeashooter, new Integer(3));
 
         getLayeredPane().add(sun, new Integer(2));
-        setResizable(false);
+
         setVisible(true);
     }
 
     public PlantWindow(boolean b) {
-        Menu menu = new Menu("Plant");
-        menu.setLocation(0, 0);
-
         setSize(1012, 785);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        setLocationRelativeTo(null);
+        setResizable(false);
+
+        setTitle("PlanZom Ultimate War");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/logo.png")));
+
+        Menu menu = new Menu("Plant");
+        menu.setLocation(0, 0);
 
         getLayeredPane().add(menu, new Integer(0));
         menu.repaint();
 
-        setResizable(false);
         setVisible(true);
     }
 
     public static PlantWindow gw;
 
-    public static void begin() throws IOException {
+    public static void begin() throws IOException, InterruptedException {
         gw.dispose();
         gw = new PlantWindow();
     }

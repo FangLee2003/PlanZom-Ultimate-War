@@ -40,9 +40,9 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
 
     public Data data;
 
+    Thread graveTimer;
     Timer redrawTimer;
     Timer advancerTimer;
-    Thread graveTimer;
 
     public ArrayList<Sun> activeSuns;
     Timer sunProducer;
@@ -51,7 +51,6 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
 
     public PlantWindow.PlantType activePlantingBrush = PlantWindow.PlantType.None;
     int mouseX, mouseY;
-
 
     Scanner sc = new Scanner(System.in);
     String zomData;
@@ -72,11 +71,6 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
         this.sunScoreBoard = sunScoreBoard;
         setSunScore(150);  //pool avalie
 
-        serverSocket = new ServerSocket(3304);
-        socket = serverSocket.accept();
-        in = new DataInputStream(socket.getInputStream());
-        out = new DataOutputStream(socket.getOutputStream());
-
         bgImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/background1.png")).getImage();
 
         collidersPlant = new ColliderPlant[25];
@@ -90,6 +84,33 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
             collidersPlant[i] = cP;
             add(cP, new Integer(0));
         }
+
+        System.out.println("Waiting for enemy...");
+
+        serverSocket = new ServerSocket(3304);
+        socket = serverSocket.accept();
+        in = new DataInputStream(socket.getInputStream());
+        out = new DataOutputStream(socket.getOutputStream());
+
+        System.out.println("WAR START!");
+
+        graveTimer = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    while (true) {
+                        zomData = in.readUTF();
+                        if (!zomData.equals(" ")) {
+                            new ZombieActionListener(Integer.parseInt(String.valueOf(zomData.charAt(0))), Integer.parseInt(String.valueOf(zomData.charAt(1))), Integer.parseInt(String.valueOf(zomData.charAt(2))));
+                            zomData = " ";
+                        }
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        graveTimer.start();
 
         activeSuns = new ArrayList<>();
 
@@ -113,21 +134,6 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
 //        graveTimer = new Timer(6000, (ActionEvent e) -> {
 //            System.out.println("Input grave position: ");
 //            zomData = sc.nextLine();
-        graveTimer = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    zomData = in.readUTF();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                if (!zomData.equals(" ")) {
-                    new ZombieActionListener(Integer.parseInt(String.valueOf(zomData.charAt(0))), Integer.parseInt(String.valueOf(zomData.charAt(1))), Integer.parseInt(String.valueOf(zomData.charAt(2))));
-                }
-                zomData = " ";
-            }
-        });
-        graveTimer.start();
 
         sunProducer = new Timer(5000, (ActionEvent e) -> {
             Random rnd = new Random();

@@ -4,6 +4,7 @@ import controller.ZombieGamePanel;
 import model.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 
@@ -25,6 +26,11 @@ public class ZombieWindow extends JFrame {
         setSize(1012, 785);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(null);
+        setLocationRelativeTo(null);
+        setResizable(false);
+
+        setTitle("PlanZom Ultimate War");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/logo.png")));
 
         JLabel brain = new JLabel("BRAIN");
         brain.setLocation(925, 80);
@@ -55,11 +61,20 @@ public class ZombieWindow extends JFrame {
         getLayeredPane().add(graveyardZombie, new Integer(3));
 
         getLayeredPane().add(brain, new Integer(2));
-        setResizable(false);
+
         setVisible(true);
     }
 
     public ZombieWindow(boolean b) {
+        setSize(1012, 785);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        setLocationRelativeTo(null);
+        setResizable(false);
+
+        setTitle("PlanZom Ultimate War");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/logo.png")));
+
         Menu menu = new Menu("Grave");
         menu.setLocation(0, 0);
 
@@ -69,7 +84,6 @@ public class ZombieWindow extends JFrame {
         getLayeredPane().add(menu, new Integer(0));
         menu.repaint();
 
-        setResizable(false);
         setVisible(true);
     }
 
