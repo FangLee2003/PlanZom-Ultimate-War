@@ -39,6 +39,7 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
     public ColliderPlant[] collidersPlant;
 
     public Data data;
+    Health healthPanel;
 
     Thread graveTimer;
     Timer redrawTimer;
@@ -52,7 +53,6 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
     public PlantWindow.PlantType activePlantingBrush = PlantWindow.PlantType.None;
     int mouseX, mouseY;
 
-    Scanner sc = new Scanner(System.in);
     String zomData;
 
     public int getSunScore() {
@@ -73,10 +73,11 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
 
         bgImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/background1.png")).getImage();
 
-        collidersPlant = new ColliderPlant[25];
-
         data = new Data();
+        healthPanel = new Health(data, 865, 0);
+        add(healthPanel);
 
+        collidersPlant = new ColliderPlant[25];
         for (int i = 0; i < 25; i++) {
             ColliderPlant cP = new ColliderPlant();
             cP.setLocation(44 + (i % 5) * 100, 109 + (i / 5) * 120); // First cell (0, 0) in place (44, 109), second cell (0, 1) in place (144, 109),...
@@ -84,6 +85,8 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
             collidersPlant[i] = cP;
             add(cP, new Integer(0));
         }
+
+        activeSuns = new ArrayList<>();
 
         System.out.println("Waiting for enemy...");
 
@@ -112,8 +115,6 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
         });
         graveTimer.start();
 
-        activeSuns = new ArrayList<>();
-
         redrawTimer = new Timer(25, (ActionEvent e) -> {
             repaint();
 //            for (int i = 0; i < data.laneGraves.length; i++) {
@@ -130,10 +131,6 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
 
         advancerTimer = new Timer(60, (ActionEvent e) -> advance());
         advancerTimer.start();
-
-//        graveTimer = new Timer(6000, (ActionEvent e) -> {
-//            System.out.println("Input grave position: ");
-//            zomData = sc.nextLine();
 
         sunProducer = new Timer(5000, (ActionEvent e) -> {
             Random rnd = new Random();

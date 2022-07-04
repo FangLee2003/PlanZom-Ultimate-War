@@ -54,7 +54,6 @@ public class Pea {
         }
         if (posX > 1000) {
             data.zomHealth -= dmg;
-            System.out.println("Zombie health: " + data.zomHealth);
             data.lanePeas.get(m).remove(this);
         }
         posX += 10;

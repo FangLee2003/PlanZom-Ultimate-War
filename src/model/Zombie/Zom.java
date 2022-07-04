@@ -55,7 +55,6 @@ public class Zom {
         }
         if (posX < 0) {
             data.plantHealth -= dmg;
-            System.out.println("Plant health: " + data.plantHealth);
             data.laneZoms.get(m).remove(this);
         }
         posX -= 5;

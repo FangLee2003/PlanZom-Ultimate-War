@@ -33,8 +33,6 @@ public class ConeHeadZom extends Zom {
                             } catch (Exception ignored) {
 
                             }
-                            //PlantGamePanel.setProgress(10);
-//                    exit = true;
                         }
                         data.laneZoms.get(m).remove(this);
 //                if(exit) break;
@@ -44,7 +42,6 @@ public class ConeHeadZom extends Zom {
         }
         if (posX < 0) {
             data.plantHealth -= dmg;
-            System.out.println("Plant health: " + data.plantHealth);
             data.laneZoms.get(m).remove(this);
         }
         posX -= 10;

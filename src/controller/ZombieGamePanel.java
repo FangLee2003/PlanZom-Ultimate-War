@@ -38,9 +38,9 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
     public ColliderZombie[] collidersZombie;
 
     public Data data;
+    Health healthPanel;
 
     Thread plantTimer;
-
     Timer redrawTimer;
     Timer advancerTimer;
 
@@ -53,7 +53,6 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
 
     int mouseX, mouseY;
 
-    Scanner sc = new Scanner(System.in);
     String plantData;
 
     public int getBrainScore() {
@@ -76,10 +75,11 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
 
         bgImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/background2.png")).getImage();
 
-        collidersZombie = new ColliderZombie[20];
-
         data = new Data();
+        healthPanel = new Health(data, 15, 0);
+        add(healthPanel);
 
+        collidersZombie = new ColliderZombie[20];
         for (int i = 0; i < 20; i++) {
             ColliderZombie cZ = new ColliderZombie();
             cZ.setLocation(544 + (i % 4) * 100, 109 + (i / 4) * 120); // First cell (0, 0) in place (544, 109), second cell (0, 1) in place (644, 109),...
@@ -93,6 +93,7 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
         socket = new Socket("127.0.0.1", 3304);
         in = new DataInputStream(socket.getInputStream());
         out = new DataOutputStream(socket.getOutputStream());
+
 
         plantTimer = new Thread(new Runnable() {
             @Override
@@ -119,10 +120,6 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
 
         advancerTimer = new Timer(60, (ActionEvent e) -> advance());
         advancerTimer.start();
-
-//        plantTimer = new Timer(6000, (ActionEvent e) -> {
-//            System.out.println("Input plant position: ");
-//            plantData = sc.nextLine();
 
         brainProducer = new Timer(5000, (ActionEvent e) -> {
             Random rnd = new Random();
