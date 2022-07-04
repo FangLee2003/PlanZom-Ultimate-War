@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.*;
+import java.io.IOException;
 import javax.swing.*;
 
 /*
@@ -50,7 +51,11 @@ public class Menu extends JPanel {
         jPanel1.setOpaque(false);
         jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel1MouseClicked(evt);
+                try {
+                    jPanel1MouseClicked(evt);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -83,7 +88,7 @@ public class Menu extends JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
+    private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) throws IOException {//GEN-FIRST:event_jPanel1MouseClicked
         // TODO add your handling code here:
         if (team.equals("Plant"))
             PlantWindow.begin();

@@ -5,6 +5,7 @@ import model.Card;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 /**
  * Created by Armin on 6/25/2016.
@@ -20,7 +21,7 @@ public class PlantWindow extends JFrame {
 
     //PlantType activePlantingBrush = PlantType.None;
 
-    public PlantWindow() {
+    public PlantWindow() throws IOException {
         setSize(1012, 785);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(null);
@@ -75,7 +76,7 @@ public class PlantWindow extends JFrame {
 
     public static PlantWindow gw;
 
-    public static void begin() {
+    public static void begin() throws IOException {
         gw.dispose();
         gw = new PlantWindow();
     }

@@ -9,10 +9,17 @@ import javax.swing.*;
 import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
+import java.net.*;
 import java.util.*;
 
 public class PlantGamePanel extends JLayeredPane implements MouseMotionListener {
     ZombieGamePanel zP;
+
+    static ServerSocket serverSocket;
+    static Socket socket;
+    static DataInputStream in;
+    static DataOutputStream out;
     Image bgImage;
 
     Image sun_plant_img = new ImageIcon(this.getClass().getClassLoader().getResource("images/plants/sunflower.gif")).getImage();
@@ -35,7 +42,7 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
 
     Timer redrawTimer;
     Timer advancerTimer;
-    Timer graveTimer;
+    Thread graveTimer;
 
     public ArrayList<Sun> activeSuns;
     Timer sunProducer;
@@ -58,12 +65,17 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
         sunScoreBoard.setText(String.valueOf(sunScore));
     }
 
-    public PlantGamePanel(JLabel sunScoreBoard) {
+    public PlantGamePanel(JLabel sunScoreBoard) throws IOException {
         setSize(1000, 752);
         setLayout(null);
         addMouseMotionListener(this);
         this.sunScoreBoard = sunScoreBoard;
         setSunScore(150);  //pool avalie
+
+        serverSocket = new ServerSocket(3304);
+        socket = serverSocket.accept();
+        in = new DataInputStream(socket.getInputStream());
+        out = new DataOutputStream(socket.getOutputStream());
 
         bgImage = new ImageIcon(this.getClass().getClassLoader().getResource("images/background1.png")).getImage();
 
@@ -101,10 +113,21 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
 //        graveTimer = new Timer(6000, (ActionEvent e) -> {
 //            System.out.println("Input grave position: ");
 //            zomData = sc.nextLine();
-        zomData = "212";
-        new ZombieActionListener(Integer.parseInt(String.valueOf(zomData.charAt(0))), Integer.parseInt(String.valueOf(zomData.charAt(1))), Integer.parseInt(String.valueOf(zomData.charAt(2))));
-//        });
-//        graveTimer.start();
+        graveTimer = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    zomData = in.readUTF();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                if (!zomData.equals(" ")) {
+                    new ZombieActionListener(Integer.parseInt(String.valueOf(zomData.charAt(0))), Integer.parseInt(String.valueOf(zomData.charAt(1))), Integer.parseInt(String.valueOf(zomData.charAt(2))));
+                }
+                zomData = " ";
+            }
+        });
+        graveTimer.start();
 
         sunProducer = new Timer(5000, (ActionEvent e) -> {
             Random rnd = new Random();
@@ -239,6 +262,11 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
                     SunPlant p = new SunPlant(PlantGamePanel.this, zP, data, m, n);
                     collidersPlant[n + m * 5].setCharacter(p);
                     data.lanePlants[m][n] = p;
+                    try {
+                        out.writeUTF(String.format("%d%d%d", 0, m, n));
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
                     setSunScore(getSunScore() - 50);
                 }
             }
@@ -247,6 +275,11 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
                     PeaPlant p = new PeaPlant(PlantGamePanel.this, zP, data, m, n);
                     collidersPlant[n + m * 5].setCharacter(p);
                     data.lanePlants[m][n] = p;
+                    try {
+                        out.writeUTF(String.format("%d%d%d", 1, m, n));
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
                     setSunScore(getSunScore() - 100);
                 }
             }
@@ -256,6 +289,11 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
                     IcePlant p = new IcePlant(PlantGamePanel.this, zP, data, m, n);
                     collidersPlant[n + m * 5].setCharacter(p);
                     data.lanePlants[m][n] = p;
+                    try {
+                        out.writeUTF(String.format("%d%d%d", 2, m, n));
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
                     setSunScore(getSunScore() - 175);
                 }
             }
