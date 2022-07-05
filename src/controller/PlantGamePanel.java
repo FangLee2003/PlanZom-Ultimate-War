@@ -173,7 +173,7 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
                 Zom z = data.laneZoms.get(i).get(j);
                 z.advance();
                 if (data.plantHealth == 0) {
-                    System.out.println("ZOMBIES ATE BRAIN!");
+                    System.out.println("ZOMBIES CLEARED PLANTS!");
                     System.exit(0);
                 }
             }

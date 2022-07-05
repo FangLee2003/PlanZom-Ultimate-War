@@ -18,8 +18,8 @@ public class Health extends JPanel {
         setOpaque(false);
         setLayout(new GridLayout(2, 1));
 
-        plantHealth.setForeground(new Color(239, 246, 158));
-        zombieHealth.setForeground(new Color(134, 150, 122));
+        plantHealth.setForeground(new Color(81, 236, 132));
+        zombieHealth.setForeground(new Color(0, 0, 0));
 
         add(plantHealth);
         add(zombieHealth);
