@@ -90,10 +90,9 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
 
         activeBrains = new ArrayList<>();
 
-        socket = new Socket("127.0.0.1", 3304);
+        socket = new Socket("192.168.113.5", 3304); // On the device running the server, open cmd and enter ipconfig to get ipv4
         in = new DataInputStream(socket.getInputStream());
         out = new DataOutputStream(socket.getOutputStream());
-
 
         plantTimer = new Thread(new Runnable() {
             @Override
