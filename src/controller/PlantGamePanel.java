@@ -20,6 +20,7 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
     static Socket socket;
     static DataInputStream in;
     static DataOutputStream out;
+    InetAddress ip = InetAddress.getLocalHost();
     Image bgImage;
 
     Image sun_plant_img = new ImageIcon(this.getClass().getClassLoader().getResource("images/plants/sunflower.gif")).getImage();
@@ -88,7 +89,7 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
 
         activeSuns = new ArrayList<>();
 
-        System.out.println("Waiting for enemy...");
+        System.out.print("Waiting for enemy in battlefield " + ip.getHostAddress() + "...");
 
         serverSocket = new ServerSocket(3304);
         socket = serverSocket.accept();
