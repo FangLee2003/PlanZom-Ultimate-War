@@ -262,7 +262,7 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
         @Override
         public void actionPerformed(ActionEvent e) {
             if (activePlantingBrush == PlantWindow.PlantType.SunPlant) {
-                if (getSunScore() >= 50) {
+                if (getSunScore() >= 50 && collidersPlant[n + m * 5].assignedPlant == null) {
                     SunPlant p = new SunPlant(PlantGamePanel.this, zP, data, m, n);
                     collidersPlant[n + m * 5].setCharacter(p);
                     data.lanePlants[m][n] = p;
@@ -275,7 +275,7 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
                 }
             }
             if (activePlantingBrush == PlantWindow.PlantType.PeaPlant) {
-                if (getSunScore() >= 100) {
+                if (getSunScore() >= 100 && collidersPlant[n + m * 5].assignedPlant == null) {
                     PeaPlant p = new PeaPlant(PlantGamePanel.this, zP, data, m, n);
                     collidersPlant[n + m * 5].setCharacter(p);
                     data.lanePlants[m][n] = p;
@@ -289,7 +289,7 @@ public class PlantGamePanel extends JLayeredPane implements MouseMotionListener 
             }
 
             if (activePlantingBrush == PlantWindow.PlantType.IcePlant) {
-                if (getSunScore() >= 175) {
+                if (getSunScore() >= 175 && collidersPlant[n + m * 5].assignedPlant == null) {
                     IcePlant p = new IcePlant(PlantGamePanel.this, zP, data, m, n);
                     collidersPlant[n + m * 5].setCharacter(p);
                     data.lanePlants[m][n] = p;

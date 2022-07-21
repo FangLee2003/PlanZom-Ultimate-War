@@ -90,7 +90,7 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
 
         activeBrains = new ArrayList<>();
 
-        socket = new Socket("192.168.113.5", 3304); // On the device running the server, open cmd and enter ipconfig to get ipv4
+        socket = new Socket("127.0.0.1", 3304); // On the device running the server, open cmd and enter ipconfig to get ipv4
         in = new DataInputStream(socket.getInputStream());
         out = new DataOutputStream(socket.getOutputStream());
 
@@ -253,7 +253,7 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
         @Override
         public void actionPerformed(ActionEvent e) {
             if (activeZombieBrush == ZombieWindow.ZombieType.BrainGrave) {
-                if (getBrainScore() >= 50) {
+                if (getBrainScore() >= 50 && collidersZombie[n + m * 4].assignedGrave == null) {
                     BrainGrave z = new BrainGrave(pP, ZombieGamePanel.this, data, m, n);
                     collidersZombie[n + m * 4].setZombie(z);
                     data.laneGraves[m][n] = z;
@@ -266,7 +266,7 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
                 }
             }
             if (activeZombieBrush == ZombieWindow.ZombieType.ZomGrave) {
-                if (getBrainScore() >= 50) {
+                if (getBrainScore() >= 50 && collidersZombie[n + m * 4].assignedGrave == null) {
                     ZomGrave z = new ZomGrave(pP, ZombieGamePanel.this, data, m, n);
                     collidersZombie[n + m * 4].setZombie(z);
                     data.laneGraves[m][n] = z;
@@ -280,7 +280,7 @@ public class ZombieGamePanel extends JLayeredPane implements MouseMotionListener
             }
 
             if (activeZombieBrush == ZombieWindow.ZombieType.ConeHeadZomGrave) {
-                if (getBrainScore() >= 75) {
+                if (getBrainScore() >= 75 && collidersZombie[n + m * 4].assignedGrave == null) {
                     ConeHeadZomGrave z = new ConeHeadZomGrave(pP, ZombieGamePanel.this, data, m, n);
                     collidersZombie[n + m * 4].setZombie(z);
                     data.laneGraves[m][n] = z;
