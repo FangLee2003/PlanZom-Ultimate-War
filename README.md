@@ -8,3 +8,11 @@
 ![Preview Zombie](https://user-images.githubusercontent.com/75077747/177241921-34b2bc11-5c6f-4de3-ae34-2a5e6f948c4b.png)
 
 ### *Seeds and zombies only deal damage to enemy graves/trees, but cannot damage each other.*
+
+## Kết nối với mình tại đây:
+
+### Linkedin: https://www.linkedin.com/in/fang-lee-613b4a210
+### Portfolio: https://fanglee1808.zyrosite.com/
+### Blog: https://fanglee2003.blogspot.com/
+### Youtube: https://www.youtube.com/channel/UCE2DVy3_Pk3BdVUAs6U-3cg
+### Tiktok: https://www.tiktok.com/@fanglee2003
