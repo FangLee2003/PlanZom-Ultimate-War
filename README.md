@@ -9,7 +9,7 @@
 
 ### *Seeds and zombies only deal damage to enemy graves/trees, but cannot damage each other.*
 
-## Kết nối với mình tại đây:
+## Stay connected:
 
 ### Linkedin: https://www.linkedin.com/in/fang-lee-613b4a210
 ### Portfolio: https://fanglee1808.zyrosite.com/
