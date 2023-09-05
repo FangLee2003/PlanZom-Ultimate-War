@@ -1,7 +1,7 @@
 # PlanZom Ultimate War
 ### Will you side with the **Angel**, or the **Devil**? Choose a team and destroy your enemy in ultimate war to become the last survivor.
 
-#### In this special game mode, you can become an angel to plant trees, shoot seeds and protect humanity 
+#### In this special game mode, you can become an angel to plant trees, shoot seeds and protect humanity...
 ![Preview Plant](https://user-images.githubusercontent.com/75077747/177241862-8d44b211-6b23-4731-80ab-d4b3824b44ea.png)
 
 #### or become a Devil to place graves, shoot zombies and destroy humanity.
